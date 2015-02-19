@@ -1,4 +1,6 @@
 
+//Agrega separador de miles al campo Valor del Formulario 
+//de Recaudo mientras se esta digitando.
 function formatearValor(input)
 {
 	var num = input.value.replace(/\./g,'');
@@ -7,9 +9,10 @@ function formatearValor(input)
 		num = num.split('').reverse().join('').replace(/^[\.]/,'');
 		input.value = num;
 	}
- 
+	//Si el usuario esta ingresando cualquier caracter 
+	//que no sea numero saltara el ALERT y borrara lo escrito
 	else{ 
-		alert('Solo se permiten numeros');
+		alert('Solo se permiten números');
 	input.value = input.value.replace(/[^\d\.]*/g,'');
 	}
 }
