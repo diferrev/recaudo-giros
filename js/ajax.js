@@ -25,23 +25,55 @@ function consultarCcosto(){
 	var puntodeventa = $("#puntodeventa").val();
 	var centrodecosto = $("#centrodecosto");
 	
+	if(puntodeventa != "NULL"){
+		ajax = objetoAjax();
+		
+		ajax.open("POST","procedures/consultar-ccosto.php",true);
+		
+		ajax.onreadystatechange = function() {
+		 
+			if (ajax.readyState==1) {
+
+				centrodecosto.val("CARGANDO CENTRO DE COSTO");
+			}
+			if (ajax.readyState==4) {
+
+				centrodecosto.val(ajax.responseText);
+			}
+		}
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send("puntodeventa="+puntodeventa)
+	}
+	else{
+		centrodecosto.val("");
+	}
+	
+}
+
+//FUNCION QUE TRAE NOMBRES Y APELLIDOS DEL COLOCADOR EN EL EVENTO ONCHANGE
+//DEL CAMPO CEDULACOLOCADOR
+
+function consultarColocador(){
+	
+	var cedulacolocador = $("#cedulacolocador").val();
+	var nombrescolocador = $("#nombrescolocador");
+	
 	ajax = objetoAjax();
 	
-	ajax.open("POST","procedures/consultar-ccosto.php",true);
+	ajax.open("POST","procedures/consultar-colocador.php",true);
 	
 	ajax.onreadystatechange = function() {
 	 
 		if (ajax.readyState==1) {
 
-			centrodecosto.val("CARGANDO CENTRO DE COSTO");
+			nombrescolocador.val("CARGANDO NOMBRES Y APELLIDOS");
 		}
 		if (ajax.readyState==4) {
 
-			centrodecosto.val(ajax.responseText);
+			nombrescolocador.val(ajax.responseText);
 		}
 	}
 	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	//enviando los valores a registro.php para que inserte los datos
-	ajax.send("puntodeventa="+puntodeventa)
+	ajax.send("cedulacolocador="+cedulacolocador)
 	
 }
