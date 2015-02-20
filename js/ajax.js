@@ -77,3 +77,33 @@ function consultarColocador(){
 	ajax.send("cedulacolocador="+cedulacolocador)
 	
 }
+
+//FUNCION QUE DEVUELVE EL NUMERO DE CONSECUTIVO DEL REGISTRO
+//SEGUN LA TRANSACCION
+
+function numConsecutivo(){
+	
+	var cedulacolocador = $("#cedulacolocador").val();
+	var puntodeventa = $("#puntodeventa").val();
+	var transaccion = $("#transaccion").val();
+	var consecutivo = $("#consecutivo");
+	
+	ajax = objetoAjax();
+	
+	ajax.open("POST","procedures/num-transaccion.php",true);
+	
+	ajax.onreadystatechange = function() {
+	 
+		if (ajax.readyState==1) {
+
+			consecutivo.val("CARGANDO CONSECUTIVO");
+		}
+		if (ajax.readyState==4) {
+
+			consecutivo.val(ajax.responseText);
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion)
+	
+}

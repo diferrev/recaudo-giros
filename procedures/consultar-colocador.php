@@ -1,4 +1,5 @@
-<?php 
+<?php
+ 
 include("conec.php");
 conectar();
 

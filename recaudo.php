@@ -12,6 +12,7 @@
 						<option value="2651">MEGALOCAL 1 C.NORTE</option>
 						<option value="2652">MEGALOCAL 2 C.NORTE</option>
 						<option value="1116">RESTAURANTE LA CASONA</option>
+						<option value="2637">GALES 1 C. NORTE</option>
 					</select>
 				</div>
 			</div>
@@ -37,8 +38,10 @@
 			<div class="form-group">
 				<label for="transaccion" class="col-sm-3 control-label">Transacción</label>
 				<div class="col-sm-9">
-					<select class="form-control" name="transaccion" id="transaccion">
+					<select class="form-control" name="transaccion" id="transaccion" onChange="numConsecutivo()">
+						<option value="0">- SELECCIONE EL TIPO DE TRANSACCION -</option>
 						<option value="1">1 - PUNTOS - RECAUDO DEL DIA</option>
+						<option value="3">3 - PUNTOS - ENVIO DE PRESTAMOS</option>
 					</select>
 				</div>
 			</div>
@@ -54,7 +57,7 @@
 				<!--CAMPO DE CONSECUTIVO QUE SE AUTORELLENA EN EL EVENTO ONCHANGE DE TRANSACCION-->
 				<label for="consecutivo" class="col-sm-2 control-label">Consecutivo</label>
 				<div class="col-sm-3">
-					<input type="text" readonly="readonly" class="form-control" name="consecutivo"/>
+					<input type="text" readonly="readonly" class="form-control" name="consecutivo" id="consecutivo"/>
 				</div>
 			</div>
 			<!--CAMPO DE OBSERVACIONES PARA LA TRANSACCION-->
@@ -70,7 +73,7 @@
 					<input type="button" class="btn btn-success" value="Registrar Pago"/>
 					<input type="button" class="btn btn-primary" value="Reversar Pago"/>
 					<input type="button" class="btn btn-primary" value="Reimprimir"/>
-					<input type="button" class="btn btn-primary" value="Limpiar"/>
+					<input type="reset" class="btn btn-primary" value="Limpiar"/>
 				</div>
 			</div>
 		</form>
