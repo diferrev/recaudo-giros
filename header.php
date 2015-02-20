@@ -1,4 +1,6 @@
 <!DOCTYPE HTML>
+<?php require_once("procedures/conec.php");?>
+<?php require_once("functions.php");?>
 <html lang="es">
 <head>
 	<meta charset="utf-8">

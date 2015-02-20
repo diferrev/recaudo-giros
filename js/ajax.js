@@ -39,6 +39,8 @@ function consultarCcosto(){
 			if (ajax.readyState==4) {
 
 				centrodecosto.val(ajax.responseText);
+				$("#transaccion").get(0).selectedIndex = 0;
+				$("#consecutivo").val("");
 			}
 		}
 		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -68,13 +70,15 @@ function consultarColocador(){
 		}
 		if (ajax.readyState==4) {
 			if(ajax.responseText == "NULL"){
-				alert("Este número no corresponde a un colocador existente");
+				alert("El número de documento no corresponde a un colocador existente");
 				nombrescolocador.val("");
 				$("#cedulacolocador").val("");
 				$("#cedulacolocador").focus();;
 			}
 			else{
 				nombrescolocador.val(ajax.responseText);
+				$("#transaccion").get(0).selectedIndex = 0;
+				$("#consecutivo").val("");
 			}
 		}
 	}
@@ -93,21 +97,79 @@ function numConsecutivo(){
 	var transaccion = $("#transaccion").val();
 	var consecutivo = $("#consecutivo");
 	
-	ajax = objetoAjax();
-	
-	ajax.open("POST","procedures/num-transaccion.php",true);
-	ajax.onreadystatechange = function() {
-	 
-		if (ajax.readyState==1) {
-
-			consecutivo.val("CARGANDO CONSECUTIVO");
+	if(transaccion != 0){
+		if(puntodeventa == "NULL"){
+			alert("Debe seleccionar PUNTO DE VENTA");
+			$("#puntodeventa").focus();
+			$("#transaccion").get(0).selectedIndex = 0;
 		}
-		if (ajax.readyState==4) {
-
-			consecutivo.val(ajax.responseText);
+		else if(!cedulacolocador){
+			alert("Debe ingresar COLOCADOR");
+			$("#cedulacolocador").focus();
+			$("#transaccion").get(0).selectedIndex = 0;
 		}
+		else{
+			ajax = objetoAjax();
+			
+			ajax.open("POST","procedures/num-transaccion.php",true);
+			ajax.onreadystatechange = function() {
+			 
+				if (ajax.readyState==1) {
+
+					consecutivo.val("CARGANDO CONSECUTIVO");
+				}
+				if (ajax.readyState==4) {
+
+					consecutivo.val(ajax.responseText);
+				}
+			}
+			ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			ajax.send("cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion)
+			
+		}
+	}else{
+		consecutivo.val("");
 	}
-	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	ajax.send("cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion)
-	
 }
+
+//FUNCION QUE DEVUELVE EL NUMERO DE CONSECUTIVO DEL REGISTRO
+//SEGUN LA TRANSACCION
+
+function insertarRegistro(){
+	
+	var cedulacajero = 31431389;
+	var puntodeventa = $("#puntodeventa").val();
+	var cedulacolocador = $("#cedulacolocador").val();
+	var transaccion = $("#transaccion").val();
+	var consecutivo = $("#consecutivo").val();
+	var observaciones = $("#observaciones").val();
+	if(!observaciones)
+	{
+		observaciones = "NULL";
+	}
+	
+	var valor = $("#valor").val();
+	if(noBlankSpace(valor) == false){
+		alert("El campo VALOR no debe contener espacios en blanco");
+		$("#valor").val("");
+		$("#valor").focus();
+	}
+	else{
+		var valor = convertirValor(valor);
+		ajax = objetoAjax();
+		
+		ajax.open("POST","procedures/insertar-registro.php",true);
+		ajax.onreadystatechange = function() {
+		 
+			if (ajax.readyState==1) {
+
+			}
+			if (ajax.readyState==4) {
+
+			}
+		}
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send("cedulacajero="+cedulacajero+"cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
+	}
+}
+	

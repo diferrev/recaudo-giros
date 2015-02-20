@@ -13,6 +13,7 @@
 						<option value="2652">MEGALOCAL 2 C.NORTE</option>
 						<option value="1116">RESTAURANTE LA CASONA</option>
 						<option value="2637">GALES 1 C. NORTE</option>
+						<option value="2640">GALES 4 C. NORTE</option>
 					</select>
 				</div>
 			</div>
@@ -20,18 +21,18 @@
 			<div class="form-group">
 				<label for="centrodecosto" class="col-sm-3 control-label">Centro de Costo</label>
 				<div class="col-sm-9">
-					<input type="text" readonly="readonly" class="form-control" name="centrodecosto" id="centrodecosto">
+					<input type="text" readonly="readonly" class="form-control" name="centrodecosto" id="centrodecosto" placeholder="Código y nombre del centro de costo">
 				</div>
 			</div>
 			<!--CAMPO CEDULA DEL COLOCADOR-->
 			<div class="form-group">
 				<label for="cedulacolocador" class="col-sm-3 control-label">Colocador</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" name="cedulacolocador" id="cedulacolocador" onkeyup="validaNumero(this)" onChange="consultarColocador()">
+					<input type="text" class="form-control" name="cedulacolocador" id="cedulacolocador" placeholder="N. de Documento" onkeyup="validaNumero(this)" onChange="consultarColocador()">
 				</div>
 				<!--CAMBO DEL NOMBRE Y APELLIDOS DEL COLOCADOR SE AUTORELLENA SEGUN LA CEDULA-->
 				<div class="col-sm-6">
-					<input type="text" readonly="readonly" class="form-control" name="nombrescolocador" id="nombrescolocador">
+					<input type="text" readonly="readonly" class="form-control" name="nombrescolocador" id="nombrescolocador" placeholder="Nombres y apellidos del colocador">
 				</div>
 			</div>
 			<!--LISTA DE TIPO DE TRANSACCION-->
@@ -51,7 +52,7 @@
 				<div class="col-sm-4">
 					<div class="input-group">
 						<div class="input-group-addon">$</div>
-						<input type="text" class="form-control" name="valor" onkeyup="formatearValor(this)"/>
+						<input type="text" class="form-control" name="valor" id="valor" placeholder="0" onkeyup="formatearValor(this)" onfocus="validaTransaccion()"/>
 					</div>
 				</div>
 				<!--CAMPO DE CONSECUTIVO QUE SE AUTORELLENA EN EL EVENTO ONCHANGE DE TRANSACCION-->
@@ -70,7 +71,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
-					<input type="button" class="btn btn-success" value="Registrar Pago"/>
+					<input type="button" class="btn btn-success" value="Registrar Pago" onclick="insertarRegistro()"/>
 					<input type="button" class="btn btn-primary" value="Reversar Pago"/>
 					<input type="button" class="btn btn-primary" value="Reimprimir"/>
 					<input type="reset" class="btn btn-primary" value="Limpiar"/>

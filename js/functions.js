@@ -1,6 +1,16 @@
 
 //Agrega separador de miles al campo Valor del Formulario 
 //de Recaudo mientras se esta digitando.
+
+function noBlankSpace(n)
+{
+	for(i=0;i<n;i++){
+		if(n.charAt(i) != " "){
+			return true;
+		}
+	}
+	return false;
+}
 function formatearValor(input)
 {
 	var num = input.value.replace(/\./g,'');
@@ -12,7 +22,7 @@ function formatearValor(input)
 	//Si el usuario esta ingresando cualquier caracter 
 	//que no sea numero saltara el ALERT y borrara lo escrito
 	else{ 
-		alert('Solo se permiten números');
+		alert('Solo se permiten números.');
 	input.value = input.value.replace(/[^\d\.]*/g,'');
 	}
 }
@@ -22,8 +32,25 @@ function validaNumero(input)
 	var num = input.value;
 	if(isNaN(num))
 	{
-		alert("Solo se permiten números");
+		alert("Solo se permiten números en el campo VALOR");
 		input.value = "";
 		input.focus();
 	}
+}
+
+function validaTransaccion()
+{
+	var t = $("#transaccion").val();
+	if(t == 0){
+		alert("No ha seleccionado el tipo de TRANSACCIÓN.");
+		$("#transaccion").focus();
+	}
+}
+function convertirValor(v)
+{
+	var caracter = ".";
+	valor = v.replace(caracter,"");
+	valor = parseInt(valor);
+	
+	return valor;
 }
