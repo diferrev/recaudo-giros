@@ -59,18 +59,23 @@ function consultarColocador(){
 	var nombrescolocador = $("#nombrescolocador");
 	
 	ajax = objetoAjax();
-	
+
 	ajax.open("POST","procedures/consultar-colocador.php",true);
-	
 	ajax.onreadystatechange = function() {
 	 
 		if (ajax.readyState==1) {
-
 			nombrescolocador.val("CARGANDO NOMBRES Y APELLIDOS");
 		}
 		if (ajax.readyState==4) {
-
-			nombrescolocador.val(ajax.responseText);
+			if(ajax.responseText == "NULL"){
+				alert("Este número no corresponde a un colocador existente");
+				nombrescolocador.val("");
+				$("#cedulacolocador").val("");
+				$("#cedulacolocador").focus();;
+			}
+			else{
+				nombrescolocador.val(ajax.responseText);
+			}
 		}
 	}
 	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -91,7 +96,6 @@ function numConsecutivo(){
 	ajax = objetoAjax();
 	
 	ajax.open("POST","procedures/num-transaccion.php",true);
-	
 	ajax.onreadystatechange = function() {
 	 
 		if (ajax.readyState==1) {

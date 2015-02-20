@@ -16,3 +16,14 @@ function formatearValor(input)
 	input.value = input.value.replace(/[^\d\.]*/g,'');
 	}
 }
+
+function validaNumero(input)
+{
+	var num = input.value;
+	if(isNaN(num))
+	{
+		alert("Solo se permiten números");
+		input.value = "";
+		input.focus();
+	}
+}

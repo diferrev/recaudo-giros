@@ -9,12 +9,18 @@ $query = "SELECT a.nombres,a.apellido1,a.apellido2 FROM asesores a WHERE a.docum
 
 $result = mysql_query($query) or die ("Problema con la consulta ".mysql_error());
 
-$row = mysql_fetch_array($result);
+$numrows = mysql_num_rows($result);
 
-$nombres = $row[0];
-$apellido1 = $row[1];
-$apellido2 = $row[2];
+if($numrows == false){
+	echo "NULL";
+}
+else{
+	$row = mysql_fetch_array($result);
 
-echo $nombres." ".$apellido1." ".$apellido1;
+	$nombres = $row[0];
+	$apellido1 = $row[1];
+	$apellido2 = $row[2];
 
+	echo $nombres." ".$apellido1." ".$apellido1;
+}
 ?>

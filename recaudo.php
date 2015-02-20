@@ -27,7 +27,7 @@
 			<div class="form-group">
 				<label for="cedulacolocador" class="col-sm-3 control-label">Colocador</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" name="cedulacolocador" id="cedulacolocador" onChange="consultarColocador()">
+					<input type="text" class="form-control" name="cedulacolocador" id="cedulacolocador" onkeyup="validaNumero(this)" onChange="consultarColocador()">
 				</div>
 				<!--CAMBO DEL NOMBRE Y APELLIDOS DEL COLOCADOR SE AUTORELLENA SEGUN LA CEDULA-->
 				<div class="col-sm-6">
