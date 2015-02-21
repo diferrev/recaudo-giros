@@ -17,6 +17,39 @@ if (!xmlhttp && typeof XMLHttpRequest!="undefined") {
 	return xmlhttp;
 }
 
+function fechayhoraPC()
+{
+	var fecha = new Date();
+	var dia,mes,anio,hora,min,seg,fechayhoraPC;
+	
+	dia = fecha.getDate();
+	if((dia.toString()).length == 1){
+		dia = "0" + dia;
+	}
+	
+	mes = fecha.getMonth() + 1;
+	if((mes.toString()).length == 1){
+		mes = "0" + mes;
+	}
+	
+	hora = fecha.getHours();
+	if((hora.toString()).length == 1){
+		hora = "0" + hora;
+	}
+	
+	min = fecha.getMinutes();
+	if((min.toString()).length == 1){
+		min = "0" + min;
+	}
+	
+	seg = fecha.getSeconds();
+	if((seg.toString()).length == 1){
+		seg = "0" + seg;
+	}
+	
+	fechayhoraPC = dia+"/"+mes+"/"+fecha.getFullYear()+" "+hora+":"+min+":"+seg;
+	return fechayhoraPC;
+}
 //FUNCION QUE TRAE EL CENTRO DE COSTO AL EVENTO ONCHANGE
 //DEL CAMPO PUNTODEvENTA
 
@@ -137,7 +170,8 @@ function numConsecutivo(){
 
 function insertarRegistro(){
 	
-	var cedulacajero = 31431389;
+	var fechayhorapc = fechayhoraPC();
+	var cedulacajero = 31431938;
 	var puntodeventa = $("#puntodeventa").val();
 	var cedulacolocador = $("#cedulacolocador").val();
 	var transaccion = $("#transaccion").val();
@@ -162,14 +196,15 @@ function insertarRegistro(){
 		ajax.onreadystatechange = function() {
 		 
 			if (ajax.readyState==1) {
-
+				
 			}
 			if (ajax.readyState==4) {
+				
+				alert(ajax.responseText);
 
 			}
 		}
 		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-		ajax.send("cedulacajero="+cedulacajero+"cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
+		ajax.send("fechayhorapc="+fechayhorapc+"&cedulacajero="+cedulacajero+"&cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
 	}
 }
-	

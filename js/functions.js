@@ -46,6 +46,7 @@ function validaTransaccion()
 		$("#transaccion").focus();
 	}
 }
+
 function convertirValor(v)
 {
 	var caracter = ".";

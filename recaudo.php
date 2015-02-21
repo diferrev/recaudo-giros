@@ -7,13 +7,15 @@
 			<div class="form-group">
 				<label for="puntodeventa" class="col-sm-3 control-label">Punto de Venta</label>
 				<div class="col-sm-9">
+				
+					<?php $query = "SELECT s.codigo, s.nombre FROM sucursal s"; ?>
+					<?php $puntosdeventa = ejecutarQuery($query);?>
+					
 					<select class="form-control" name="puntodeventa" id="puntodeventa" onChange="consultarCcosto()">
 						<option value="NULL">- SELECCIONE EL PUNTO DE VENTA -</option>
-						<option value="2651">MEGALOCAL 1 C.NORTE</option>
-						<option value="2652">MEGALOCAL 2 C.NORTE</option>
-						<option value="1116">RESTAURANTE LA CASONA</option>
-						<option value="2637">GALES 1 C. NORTE</option>
-						<option value="2640">GALES 4 C. NORTE</option>
+					<?php while($puntodeventa = mysql_fetch_array($puntosdeventa)){?>
+						<option value="<?php echo $puntodeventa[0];?>"><?php echo $puntodeventa[1];?></option>
+					<?php }?>
 					</select>
 				</div>
 			</div>
@@ -39,10 +41,15 @@
 			<div class="form-group">
 				<label for="transaccion" class="col-sm-3 control-label">Transacción</label>
 				<div class="col-sm-9">
+				
+					<?php $query = "SELECT t.codigo, t.nombre FROM transacciones t"; ?>
+					<?php $transacciones = ejecutarQuery($query);?>
+					
 					<select class="form-control" name="transaccion" id="transaccion" onChange="numConsecutivo()">
 						<option value="0">- SELECCIONE EL TIPO DE TRANSACCION -</option>
-						<option value="1">1 - PUNTOS - RECAUDO DEL DIA</option>
-						<option value="3">3 - PUNTOS - ENVIO DE PRESTAMOS</option>
+						<?php while($transaccion = mysql_fetch_array($transacciones)){?>
+						<option value="<?php echo $transaccion[0];?>"><?php echo $transaccion[0];?> - <?php echo $transaccion[1];?></option>
+						<?php }?>
 					</select>
 				</div>
 			</div>
