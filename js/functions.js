@@ -55,3 +55,32 @@ function convertirValor(v)
 	
 	return valor;
 }
+
+function limpiaFormulario(f){
+	$(f).get(0).reset();
+}
+
+function transaccionOk(text){
+	
+	var alert = $("#alert");
+	alert.addClass("alert-success");
+	alert.html(text);
+	alert.slideDown(400).delay(2000).slideUp(400,function(){
+		alert.html("");
+		alert.removeClass("alert-success");
+	});
+
+}
+
+function transaccionError(text){
+
+	var alert = $("#alert");
+	alert.addClass("alert-danger");
+	alert.html(text);
+	alert.slideDown(400).delay(2000).slideUp(400,function(){
+		alert.html("");
+		alert.removeClass("alert-danger");
+	});
+
+}
+

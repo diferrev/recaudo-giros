@@ -200,11 +200,17 @@ function insertarRegistro(){
 			}
 			if (ajax.readyState==4) {
 				
-				alert(ajax.responseText);
+				if(ajax.responseText == "OK"){
+					transaccionOk("Transacción exitosa, recuerde entregar el recibo.");
+				}
+				else{
+					transaccionError(ajax.responseText);
+				}
 
 			}
 		}
 		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 		ajax.send("fechayhorapc="+fechayhorapc+"&cedulacajero="+cedulacajero+"&cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
 	}
+	limpiaFormulario("#formRecaudo");
 }

@@ -21,10 +21,14 @@
 	}
 .navbar{
 	border-radius:0;
+	margin-bottom:0;
 }
 .content{
 	padding-top:15px;
 }
 .module{
 	text-align:center;
+}
+#alert{
+	display:none;
 }

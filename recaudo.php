@@ -2,6 +2,7 @@
 
 <section class="content">
 	<div class="container">
+		<div id="alert" class="alert " role="alert"></div>
 		<form class="form-horizontal" action="" id="formRecaudo" name="formRecaudo">
 			<!--CAMPO DE PUNTO DE VENTA-->
 			<div class="form-group">
@@ -70,18 +71,18 @@
 			</div>
 			<!--CAMPO DE OBSERVACIONES PARA LA TRANSACCION-->
 			<div class="form-group">
-				<label for="observacion" class="col-sm-3 control-label">Observaciones</label>
+				<label for="observaciones" class="col-sm-3 control-label">Observaciones</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" name="observacion"/>
+					<input type="text" class="form-control" name="observaciones" id="observaciones"/>
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
 					<input type="button" class="btn btn-success" value="Registrar Pago" onclick="insertarRegistro()"/>
-					<input type="button" class="btn btn-primary" value="Reversar Pago"/>
+					<input type="button" class="btn btn-primary" value="Reversar Pago" />
 					<input type="button" class="btn btn-primary" value="Reimprimir"/>
-					<input type="reset" class="btn btn-primary" value="Limpiar"/>
+					<input type="button" class="btn btn-primary" value="Limpiar" onclick="limpiaFormulario('#formRecaudo')"/>
 				</div>
 			</div>
 		</form>
