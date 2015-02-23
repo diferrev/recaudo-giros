@@ -173,7 +173,10 @@ function insertarRegistro(){
 	var fechayhorapc = fechayhoraPC();
 	var cedulacajero = 31431938;
 	var puntodeventa = $("#puntodeventa").val();
+	var nombrepuntodeventa = $("#puntodeventa option:selected").html();
+	var centrodecosto = $("#centrodecosto").val();
 	var cedulacolocador = $("#cedulacolocador").val();
+	var nombrescolocador = $("#nombrescolocador").val();
 	var transaccion = $("#transaccion").val();
 	var consecutivo = $("#consecutivo").val();
 	var observaciones = $("#observaciones").val();
@@ -190,6 +193,19 @@ function insertarRegistro(){
 	}
 	else{
 		var valor = convertirValor(valor);
+		
+		localStorage.setItem('fechayhoraPC',fechayhorapc);
+		localStorage.setItem('cedulacajero',cedulacajero);
+		localStorage.setItem('centrodecosto',centrodecosto);
+		localStorage.setItem('nombrepuntodeventa',nombrepuntodeventa);
+		localStorage.setItem('cedulacolocador',cedulacolocador);
+		localStorage.setItem('nombrescolocador',nombrescolocador);
+		localStorage.setItem('valor',valor);
+		localStorage.setItem('transaccion',transaccion);
+		localStorage.setItem('consecutivo',consecutivo);
+		localStorage.setItem('observaciones',observaciones);
+
+		
 		ajax = objetoAjax();
 		
 		ajax.open("POST","procedures/insertar-registro.php",true);
@@ -213,4 +229,5 @@ function insertarRegistro(){
 		ajax.send("fechayhorapc="+fechayhorapc+"&cedulacajero="+cedulacajero+"&cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
 	}
 	limpiaFormulario("#formRecaudo");
+	$("#registrarPago").attr("disabled","disabled");
 }

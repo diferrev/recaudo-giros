@@ -3,7 +3,7 @@
 include("conec.php");
 conectar();
 	
-$fechaactual = "2013-02-14";
+$fechaactual = date("Y-m-d");
 $cedulacolocador = $_POST["cedulacolocador"];
 $puntodeventa = $_POST["puntodeventa"];
 $transaccion = $_POST["transaccion"];

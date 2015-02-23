@@ -2,6 +2,9 @@
 
 <section class="content">
 	<div class="container">
+		<div id="activarImpresora" class="alert" role="alert">
+			Recuerde activar la impresora antes de empezar a recaudar <button class="btn btn-sm btn-warning" onclick="useDefaultPrinter()">Activar Impresora</button>
+		</div>
 		<div id="alert" class="alert " role="alert"></div>
 		<form class="form-horizontal" action="" id="formRecaudo" name="formRecaudo">
 			<!--CAMPO DE PUNTO DE VENTA-->
@@ -79,8 +82,8 @@
 			
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
-					<input type="button" class="btn btn-success" value="Registrar Pago" onclick="insertarRegistro()"/>
-					<input type="button" class="btn btn-primary" value="Reversar Pago" />
+					<input type="button" class="btn btn-success" value="Registrar Pago" id="registrarPago" onclick="impRegistrarPago()"/>
+					<input type="button" class="btn btn-primary" value="Reversar Pago" id="reversarPago"/>
 					<input type="button" class="btn btn-primary" value="Reimprimir"/>
 					<input type="button" class="btn btn-primary" value="Limpiar" onclick="limpiaFormulario('#formRecaudo')"/>
 				</div>
@@ -88,5 +91,6 @@
 		</form>
 	</div>
 </section>
-
+<script type="text/javascript" src="js/deployJava.js"></script>
+<script type="text/javascript" src="js/javaprinter.js"></script>
 <?php require_once("footer.php");?>

@@ -84,3 +84,31 @@ function transaccionError(text){
 
 }
 
+function impRegistrarPago() {
+		if (notReady()) { return; }
+		// Send characters/raw commands to qz using "append"
+		// This example is for EPL.  Please adapt to your printer language
+		// Hint:  Carriage Return = \r, New Line = \n, Escape Double Quotes= \"
+		qz.append("Apuestas Azar S.A.\n\n");
+		qz.append("Recaudo Efectivo Giros v2.0\n\n");
+		qz.append("Fecha y Hora: 23/02/2015 17:00:00\n");
+		qz.append("Cajero: 31431938 ADRIANA NARANJO OLARTE\n");
+		qz.append("ccosto: 1081 - CARTAGO\n");
+		qz.append("Punto: GALES 3 - C. NORTE\n");
+		qz.append("Colocador: 1112762042 - MARIA ALEJANDRA HERNANDEZ\n");
+		qz.append("Valor: 150.000\n");
+		qz.append("Concepto: 1 - PUNTOS RECAUDOS DEL DIA\n");
+		qz.append("# Consecutivo: 2\n");
+		qz.append("Observaciones: HOLA SOY UN OBSERVACION\n\n\n");
+		qz.append("_____________    ____________\n");
+		qz.append("Frm Recolector     Frm Asesor\n");
+		qz.append("\n\n\n\n\n\n\n\n");
+			
+		// Tell the applet to print.
+		qz.print();
+			
+		// Remove reference to this function
+		window['qzDoneAppending'] = null;
+		
+	 }
+
