@@ -84,7 +84,8 @@
 		}
 		
 		// Alert success message
-		alert('Successfully sent print data to "' + qz.getPrinter() + '" queue.');
+		// alert('Successfully sent print data to "' + qz.getPrinter() + '" queue.');
+		transaccionOk("Transacción exitosa, recuerde entregar el recibo.");
 	}
 	
 	/***************************************************************************
@@ -108,6 +109,7 @@
 				// Remove reference to this function
 				window['qzDoneFinding'] = null;
 				$("#activarImpresora").slideUp(500);
+				$("#registrarPago").removeClass("disabled");
 			};
 		}
 	}

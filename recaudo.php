@@ -2,8 +2,8 @@
 
 <section class="content">
 	<div class="container">
-		<div id="activarImpresora" class="alert" role="alert">
-			Recuerde activar la impresora antes de empezar a recaudar <button class="btn btn-sm btn-warning" onclick="useDefaultPrinter()">Activar Impresora</button>
+		<div id="activarImpresora" class="alert alert-warning text-center" role="alert">
+			Recuerde activar la impresora antes de empezar a recaudar  <button class="btn btn-sm btn-primary" onclick="useDefaultPrinter()">Activar Impresora</button>
 		</div>
 		<div id="alert" class="alert " role="alert"></div>
 		<form class="form-horizontal" action="" id="formRecaudo" name="formRecaudo">
@@ -82,7 +82,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
-					<input type="button" class="btn btn-success" value="Registrar Pago" id="registrarPago" onclick="impRegistrarPago()"/>
+					<input type="button" class="btn btn-success disabled" value="Registrar Pago" id="registrarPago" onclick="insertarRegistro()"/>
 					<input type="button" class="btn btn-primary" value="Reversar Pago" id="reversarPago"/>
 					<input type="button" class="btn btn-primary" value="Reimprimir"/>
 					<input type="button" class="btn btn-primary" value="Limpiar" onclick="limpiaFormulario('#formRecaudo')"/>

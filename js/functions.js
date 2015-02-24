@@ -2,15 +2,7 @@
 //Agrega separador de miles al campo Valor del Formulario 
 //de Recaudo mientras se esta digitando.
 
-function noBlankSpace(n)
-{
-	for(i=0;i<n;i++){
-		if(n.charAt(i) != " "){
-			return true;
-		}
-	}
-	return false;
-}
+
 function formatearValor(input)
 {
 	var num = input.value.replace(/\./g,'');
@@ -49,15 +41,14 @@ function validaTransaccion()
 
 function convertirValor(v)
 {
-	var caracter = ".";
-	valor = v.replace(caracter,"");
-	valor = parseInt(valor);
-	
+	valor = v.replace(/\./g,"");
+	valor = valor.replace(/\s/g,"");
 	return valor;
 }
 
 function limpiaFormulario(f){
 	$(f).get(0).reset();
+	$("#puntodeventa").focus();
 }
 
 function transaccionOk(text){
@@ -65,7 +56,7 @@ function transaccionOk(text){
 	var alert = $("#alert");
 	alert.addClass("alert-success");
 	alert.html(text);
-	alert.slideDown(400).delay(2000).slideUp(400,function(){
+	alert.slideDown(400).delay(2500).slideUp(400,function(){
 		alert.html("");
 		alert.removeClass("alert-success");
 	});
@@ -84,24 +75,24 @@ function transaccionError(text){
 
 }
 
-function impRegistrarPago() {
+function impRegistrarPago(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valor,nombretransaccion,consecutivo,observaciones) {
 		if (notReady()) { return; }
 		// Send characters/raw commands to qz using "append"
 		// This example is for EPL.  Please adapt to your printer language
 		// Hint:  Carriage Return = \r, New Line = \n, Escape Double Quotes= \"
 		qz.append("Apuestas Azar S.A.\n\n");
 		qz.append("Recaudo Efectivo Giros v2.0\n\n");
-		qz.append("Fecha y Hora: 23/02/2015 17:00:00\n");
-		qz.append("Cajero: 31431938 ADRIANA NARANJO OLARTE\n");
-		qz.append("ccosto: 1081 - CARTAGO\n");
-		qz.append("Punto: GALES 3 - C. NORTE\n");
-		qz.append("Colocador: 1112762042 - MARIA ALEJANDRA HERNANDEZ\n");
-		qz.append("Valor: 150.000\n");
-		qz.append("Concepto: 1 - PUNTOS RECAUDOS DEL DIA\n");
-		qz.append("# Consecutivo: 2\n");
-		qz.append("Observaciones: HOLA SOY UN OBSERVACION\n\n\n");
-		qz.append("_____________    ____________\n");
-		qz.append("Frm Recolector     Frm Asesor\n");
+		qz.append("Fecha y Hora: "+fechayhorapc+"\n");
+		qz.append("Cajero: "+cedulacajero+" ADRIANA NARANJO OLARTE\n");
+		qz.append("Ccosto: "+centrodecosto+"\n");
+		qz.append("Punto: "+nombrepuntodeventa+"\n");
+		qz.append("Colocador: "+cedulacolocador+" - "+nombrescolocador+"\n");
+		qz.append("Valor: "+valor+"\n");
+		qz.append("Concepto: "+nombretransaccion+"\n");
+		qz.append("# Consecutivo: "+consecutivo+"\n");
+		qz.append("Observaciones: "+observaciones+"\n\n\n");
+		qz.append("__________________    __________________\n");
+		qz.append("Frm Recolector             Frm Colocador\n");
 		qz.append("\n\n\n\n\n\n\n\n");
 			
 		// Tell the applet to print.

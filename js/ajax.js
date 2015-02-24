@@ -178,21 +178,22 @@ function insertarRegistro(){
 	var cedulacolocador = $("#cedulacolocador").val();
 	var nombrescolocador = $("#nombrescolocador").val();
 	var transaccion = $("#transaccion").val();
+	var nombretransaccion = $("#transaccion option:selected").html();
 	var consecutivo = $("#consecutivo").val();
 	var observaciones = $("#observaciones").val();
 	if(!observaciones)
 	{
-		observaciones = "NULL";
+		observaciones = "";
 	}
+	var valorString = $("#valor").val();
+	var valor = convertirValor(valorString);
 	
-	var valor = $("#valor").val();
-	if(noBlankSpace(valor) == false){
+	if(isNaN(valor) == true){
 		alert("El campo VALOR no debe contener espacios en blanco");
 		$("#valor").val("");
 		$("#valor").focus();
 	}
 	else{
-		var valor = convertirValor(valor);
 		
 		localStorage.setItem('fechayhoraPC',fechayhorapc);
 		localStorage.setItem('cedulacajero',cedulacajero);
@@ -200,8 +201,9 @@ function insertarRegistro(){
 		localStorage.setItem('nombrepuntodeventa',nombrepuntodeventa);
 		localStorage.setItem('cedulacolocador',cedulacolocador);
 		localStorage.setItem('nombrescolocador',nombrescolocador);
-		localStorage.setItem('valor',valor);
+		localStorage.setItem('valor',valorString);
 		localStorage.setItem('transaccion',transaccion);
+		localStorage.setItem('nombretransaccion',nombretransaccion);
 		localStorage.setItem('consecutivo',consecutivo);
 		localStorage.setItem('observaciones',observaciones);
 
@@ -217,7 +219,11 @@ function insertarRegistro(){
 			if (ajax.readyState==4) {
 				
 				if(ajax.responseText == "OK"){
-					transaccionOk("Transacción exitosa, recuerde entregar el recibo.");
+					
+					impRegistrarPago(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones);
+					limpiaFormulario("#formRecaudo");
+					// $("#registrarPago").attr("disabled","disabled");
+					
 				}
 				else{
 					transaccionError(ajax.responseText);
@@ -228,6 +234,4 @@ function insertarRegistro(){
 		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 		ajax.send("fechayhorapc="+fechayhorapc+"&cedulacajero="+cedulacajero+"&cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
 	}
-	limpiaFormulario("#formRecaudo");
-	$("#registrarPago").attr("disabled","disabled");
 }
