@@ -188,50 +188,117 @@ function insertarRegistro(){
 	var valorString = $("#valor").val();
 	var valor = convertirValor(valorString);
 	
-	if(isNaN(valor) == true){
-		alert("El campo VALOR no debe contener espacios en blanco");
-		$("#valor").val("");
-		$("#valor").focus();
+	if(valorString){
+		if(isNaN(valor) == true){
+			alert("El campo VALOR no debe contener espacios en blanco");
+			$("#valor").val("");
+			$("#valor").focus();
+		}
+		else{
+			
+			localStorage.setItem('fechayhoraPC',fechayhorapc);
+			localStorage.setItem('cedulacajero',cedulacajero);
+			localStorage.setItem('puntodeventa',puntodeventa);
+			localStorage.setItem('centrodecosto',centrodecosto);
+			localStorage.setItem('nombrepuntodeventa',nombrepuntodeventa);
+			localStorage.setItem('cedulacolocador',cedulacolocador);
+			localStorage.setItem('nombrescolocador',nombrescolocador);
+			localStorage.setItem('valor',valorString);
+			localStorage.setItem('transaccion',transaccion);
+			localStorage.setItem('nombretransaccion',nombretransaccion);
+			localStorage.setItem('consecutivo',consecutivo);
+			localStorage.setItem('observaciones',observaciones);
+
+			
+			ajax = objetoAjax();
+			
+			ajax.open("POST","procedures/insertar-registro.php",true);
+			ajax.onreadystatechange = function() {
+			 
+				if (ajax.readyState==1) {
+					
+				}
+				if (ajax.readyState==4) {
+					
+					if(ajax.responseText == "OK"){
+						
+						imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones);
+						limpiaFormulario("#formRecaudo");
+						$("#reversarultimo").removeClass("disabled");
+						$("#reimprimir").removeClass("disabled");
+						
+					}
+					else{
+						transaccionError(ajax.responseText);
+					}
+
+				}
+			}
+			ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			ajax.send("fechayhorapc="+fechayhorapc+"&cedulacajero="+cedulacajero+"&cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
+		}
 	}
 	else{
-		
-		localStorage.setItem('fechayhoraPC',fechayhorapc);
-		localStorage.setItem('cedulacajero',cedulacajero);
-		localStorage.setItem('centrodecosto',centrodecosto);
-		localStorage.setItem('nombrepuntodeventa',nombrepuntodeventa);
-		localStorage.setItem('cedulacolocador',cedulacolocador);
-		localStorage.setItem('nombrescolocador',nombrescolocador);
-		localStorage.setItem('valor',valorString);
-		localStorage.setItem('transaccion',transaccion);
-		localStorage.setItem('nombretransaccion',nombretransaccion);
-		localStorage.setItem('consecutivo',consecutivo);
-		localStorage.setItem('observaciones',observaciones);
-
-		
-		ajax = objetoAjax();
-		
-		ajax.open("POST","procedures/insertar-registro.php",true);
-		ajax.onreadystatechange = function() {
-		 
-			if (ajax.readyState==1) {
-				
-			}
-			if (ajax.readyState==4) {
-				
-				if(ajax.responseText == "OK"){
-					
-					impRegistrarPago(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones);
-					limpiaFormulario("#formRecaudo");
-					// $("#registrarPago").attr("disabled","disabled");
-					
-				}
-				else{
-					transaccionError(ajax.responseText);
-				}
-
-			}
-		}
-		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-		ajax.send("fechayhorapc="+fechayhorapc+"&cedulacajero="+cedulacajero+"&cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
+		alert("No ha ingresado un valor para la transacción");
 	}
+}
+
+function reversarUltRegistro(){
+	
+	var fechayhorapc = fechayhoraPC();
+	var cedulacajero = localStorage.cedulacajero;
+	var centrodecosto = localStorage.centrodecosto;
+	var puntodeventa = localStorage.puntodeventa;
+	var nombrepuntodeventa = localStorage.nombrepuntodeventa;
+	var cedulacolocador = localStorage.cedulacolocador;
+	var nombrescolocador = localStorage.nombrescolocador;
+	var valorString = "-" + localStorage.valor;
+	var transaccion = localStorage.transaccion;
+	var nombretransaccion = localStorage.nombretransaccion;
+	var consecutivo = localStorage.consecutivo;
+	consecutivo = parseInt(consecutivo) + 1;
+	
+	var observaciones = localStorage.observaciones;
+	
+	var valor = convertirValor(valorString);
+		
+	localStorage.setItem('fechayhoraPC',fechayhorapc);
+	localStorage.setItem('cedulacajero',cedulacajero);
+	localStorage.setItem('centrodecosto',centrodecosto);
+	localStorage.setItem('puntodeventa',puntodeventa);
+	localStorage.setItem('nombrepuntodeventa',nombrepuntodeventa);
+	localStorage.setItem('cedulacolocador',cedulacolocador);
+	localStorage.setItem('nombrescolocador',nombrescolocador);
+	localStorage.setItem('valor',valorString);
+	localStorage.setItem('transaccion',transaccion);
+	localStorage.setItem('nombretransaccion',nombretransaccion);
+	localStorage.setItem('consecutivo',consecutivo);
+	localStorage.setItem('observaciones',observaciones);
+
+			
+	ajax = objetoAjax();
+			
+	ajax.open("POST","procedures/insertar-registro.php",true);
+	ajax.onreadystatechange = function() {
+			 
+		if (ajax.readyState==1) {
+						
+		}
+		if (ajax.readyState==4) {
+						
+			if(ajax.responseText == "OK"){
+							
+				imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones);
+				limpiaFormulario("#formRecaudo");
+				$("#reversarultimo").addClass("disabled");
+				
+			}
+			else{
+				transaccionError(ajax.responseText);
+			}
+
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("fechayhorapc="+fechayhorapc+"&cedulacajero="+cedulacajero+"&cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
 }

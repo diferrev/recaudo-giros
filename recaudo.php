@@ -82,10 +82,11 @@
 			
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
-					<input type="button" class="btn btn-success disabled" value="Registrar Pago" id="registrarPago" onclick="insertarRegistro()"/>
-					<input type="button" class="btn btn-primary" value="Reversar Pago" id="reversarPago"/>
-					<input type="button" class="btn btn-primary" value="Reimprimir"/>
-					<input type="button" class="btn btn-primary" value="Limpiar" onclick="limpiaFormulario('#formRecaudo')"/>
+					<input type="button" class="btn btn-sm btn-success disabled" value="Registrar Pago" id="registrar" onclick="insertarRegistro()"/>
+					<input type="button" class="btn btn-sm btn-primary disabled" value="Reversar Pago" id="reversar" />
+					<input type="button" class="btn btn-sm btn-primary disabled" value="Reversar Últ. Pago" id="reversarultimo" onclick="reversarUltRegistro()"/>
+					<input type="button" class="btn btn-sm btn-primary disabled" value="Reimprimir" id="reimprimir" onclick="reimprimirRecibo()"/>
+					<input type="button" class="btn btn-sm btn-primary" value="Limpiar" onclick="limpiaFormulario('#formRecaudo')"/>
 				</div>
 			</div>
 		</form>

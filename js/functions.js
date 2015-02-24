@@ -15,7 +15,7 @@ function formatearValor(input)
 	//que no sea numero saltara el ALERT y borrara lo escrito
 	else{ 
 		alert('Solo se permiten números.');
-	input.value = input.value.replace(/[^\d\.]*/g,'');
+		input.value = input.value.replace(/[^\d\.]*/g,'');
 	}
 }
 
@@ -75,7 +75,7 @@ function transaccionError(text){
 
 }
 
-function impRegistrarPago(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valor,nombretransaccion,consecutivo,observaciones) {
+function imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valor,nombretransaccion,consecutivo,observaciones) {
 		if (notReady()) { return; }
 		// Send characters/raw commands to qz using "append"
 		// This example is for EPL.  Please adapt to your printer language
@@ -102,4 +102,22 @@ function impRegistrarPago(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodev
 		window['qzDoneAppending'] = null;
 		
 	 }
-
+ 
+function reimprimirRecibo(){
+	
+	var fechayhorapc = localStorage.fechayhoraPC;
+	var cedulacajero = localStorage.cedulacajero;
+	var centrodecosto = localStorage.centrodecosto;
+	var nombrepuntodeventa = localStorage.nombrepuntodeventa;
+	var cedulacolocador = localStorage.cedulacolocador;
+	var nombrescolocador = localStorage.nombrescolocador;
+	var valorString = localStorage.valor;
+	var transaccion = localStorage.transaccion;
+	var nombretransaccion = localStorage.nombretransaccion;
+	var consecutivo = localStorage.consecutivo;
+	var observaciones = localStorage.observaciones;
+		
+	imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones);
+		localStorage.clear();
+	$("#reimprimir").addClass("disabled");
+}

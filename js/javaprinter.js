@@ -109,7 +109,8 @@
 				// Remove reference to this function
 				window['qzDoneFinding'] = null;
 				$("#activarImpresora").slideUp(500);
-				$("#registrarPago").removeClass("disabled");
+				$("#registrar").removeClass("disabled");
+				$("#reversar").removeClass("disabled");
 			};
 		}
 	}
