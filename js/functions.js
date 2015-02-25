@@ -4,7 +4,7 @@ function cargarContenido(div,url,a){
     event.preventDefault();
 	});
 	
-	$(div).load(url);
+	$(div).hide().load(url).fadeIn(500);
 }
 
 //AGREGA SEPARACION DE MILES

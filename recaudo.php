@@ -2,7 +2,7 @@
 <?php require_once("functions.php");?>
 
 		<div id="activarImpresora" class="alert alert-warning text-center" role="alert">
-			Recuerde activar la impresora antes de empezar a recaudar  <button class="btn btn-sm btn-primary" onclick="useDefaultPrinter()">Activar Impresora</button>
+			Recuerde activar la impresora antes de empezar a recaudar  <button class="btn btn-sm btn-default" onclick="useDefaultPrinter()">Activar Impresora</button>
 		</div>
 		<div id="alert" class="alert " role="alert"></div>
 		<form class="form-horizontal" action="" id="formRecaudo" name="formRecaudo">

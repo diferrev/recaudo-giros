@@ -8,7 +8,6 @@
 	<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
 <header class="header">
 	<div class="container">
 		<div class="col-sm-6">
@@ -22,7 +21,7 @@
 	</div>
 </header>
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">

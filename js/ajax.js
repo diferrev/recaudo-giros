@@ -18,6 +18,14 @@ if (!xmlhttp && typeof XMLHttpRequest!="undefined") {
 	return xmlhttp;
 }
 
+//FUNCION DE LOGIN
+function login(){
+	var username = $("#username").val();
+	var password = $("#password").val();
+	
+	
+}
+
 //DEVUELVE LA FECHA Y HORA DEL PC
 function fechayhoraPC()
 {
