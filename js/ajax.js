@@ -119,8 +119,7 @@ function consultarColocador(){
 	
 }
 
-//FUNCION QUE DEVUELVE EL NUMERO DE CONSECUTIVO DEL RECAUDO SEGUN 
-//PUNTODEVENTA, CEDULACOLOCADO Y TIPO DE TRANSACCION
+//FUNCION QUE DEVUELVE EL NUMERO DE CONSECUTIVO DEL RECAUDO SEGUN PUNTODEVENTA, CEDULACOLOCADO Y TIPO DE TRANSACCION
 function numConsecutivo(){
 	
 	var cedulacolocador = $("#cedulacolocador").val();
@@ -206,6 +205,7 @@ function registrarRecaudo(){
 			localStorage.setItem('observaciones',observaciones);
 			localStorage.setItem('tipotransaccion',tipotransaccion);
 
+			
 			ajax = objetoAjax();
 			
 			ajax.open("POST","procedures/insertar-registro.php",true);
@@ -320,7 +320,7 @@ function reversarRecaudo(){
 	}
 }
 
-//REVERSA EL ÚLTIMO RECAUDO REGISTRADO
+//REVERSA EL RECAUDO
 function reversarUltimoRecaudo(){
 	
 	var fechayhorapc = fechayhoraPC();

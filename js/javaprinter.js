@@ -45,8 +45,11 @@
 		}
 		// If a printer hasn't been selected, display a message.
 		else if (!qz.getPrinter()) {
-			alert('Por favor active la impresora primero.');
+			$("#activarImpresora").slideDown(500);
 			return true;
+		}else{
+			$("#registrar").removeClass("disabled");
+			$("#reversar").removeClass("disabled");
 		}
 		return false;
 	}
@@ -99,6 +102,7 @@
 			// Searches for default printer
 			qz.findPrinter();
 			
+			
 			// Automatically gets called when "qz.findPrinter()" is finished.
 			window['qzDoneFinding'] = function() {
 				// Alert the printer name to user
@@ -112,6 +116,8 @@
 				$("#registrar").removeClass("disabled");
 				$("#reversar").removeClass("disabled");
 			};
+		}else{
+			$("#activarImpresora").slideDown(500);
 		}
 	}
 	

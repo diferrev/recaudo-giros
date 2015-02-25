@@ -1,3 +1,12 @@
+function cargarContenido(div,url,a){
+	
+	$(this).click(function(event){
+    event.preventDefault();
+	});
+	
+	$(div).load(url);
+}
+
 //AGREGA SEPARACION DE MILES
 function formatearValor(input)
 {

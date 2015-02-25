@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <?php require_once("procedures/conec.php");?>
-<?php require_once("functions.php");?>
 <html lang="es">
 <head>
 	<meta charset="utf-8">
@@ -35,9 +34,9 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="home.php">Inicio</a></li>
-        <li><a href="recaudo.php">Recaudo</a></li>
-		<li><a href="reporte.php">Reportes</a></li>
+        <li><a href="" onclick="cargarContenido('#contenido','home.php',this)">Inicio</a></li>
+        <li><a href="" onclick="cargarContenido('#contenido','recaudo.php',this)">Recaudo</a></li>
+		<li><a href="" onclick="cargarContenido('#contenido','reportes.php',this)">Reportes</a></li>
       </ul>
     </div>
   </div>

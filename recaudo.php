@@ -1,7 +1,6 @@
-<?php require_once("header.php");?>
+<?php require_once("procedures/conec.php");?>
+<?php require_once("functions.php");?>
 
-<section class="content">
-	<div class="container">
 		<div id="activarImpresora" class="alert alert-warning text-center" role="alert">
 			Recuerde activar la impresora antes de empezar a recaudar  <button class="btn btn-sm btn-primary" onclick="useDefaultPrinter()">Activar Impresora</button>
 		</div>
@@ -89,8 +88,4 @@
 				</div>
 			</div>
 		</form>
-	</div>
-</section>
-<script type="text/javascript" src="js/deployJava.js"></script>
-<script type="text/javascript" src="js/javaprinter.js"></script>
-<?php require_once("footer.php");?>
+		<script type="text/javascript">notReady();</script>
