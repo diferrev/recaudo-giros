@@ -1,8 +1,4 @@
-
-//Agrega separador de miles al campo Valor del Formulario 
-//de Recaudo mientras se esta digitando.
-
-
+//AGREGA SEPARACION DE MILES
 function formatearValor(input)
 {
 	var num = input.value.replace(/\./g,'');
@@ -19,6 +15,7 @@ function formatearValor(input)
 	}
 }
 
+//VALIDA SI EL TEXTO DE UN CAMPO ES NUMERICO, SE EJECUTA CADA VEZ QUE SUELTA UNA TECLA
 function validaNumero(input)
 {
 	var num = input.value;
@@ -30,6 +27,7 @@ function validaNumero(input)
 	}
 }
 
+//VALIDA SI SE HA SELECCIONA UN TIPO DE TRANSACCION AL PASAR AL CAMPO VALOR
 function validaTransaccion()
 {
 	var t = $("#transaccion").val();
@@ -39,6 +37,7 @@ function validaTransaccion()
 	}
 }
 
+//ELIMINA LOS SEPARADORES DE MILES Y ESPACIOS
 function convertirValor(v)
 {
 	valor = v.replace(/\./g,"");
@@ -46,11 +45,13 @@ function convertirValor(v)
 	return valor;
 }
 
+//LIMPIA TODOS LOS CAMPOS UN FORMULARIO
 function limpiaFormulario(f){
 	$(f).get(0).reset();
 	$("#puntodeventa").focus();
 }
 
+//MUESTRA UN ALERT DE TRANSACCION EXITOSA
 function transaccionOk(text){
 	
 	var alert = $("#alert");
@@ -63,6 +64,7 @@ function transaccionOk(text){
 
 }
 
+//MUESTRA UN ALERT DE TRANSACCION FALLIDA
 function transaccionError(text){
 
 	var alert = $("#alert");
@@ -75,18 +77,20 @@ function transaccionError(text){
 
 }
 
-function imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valor,nombretransaccion,consecutivo,observaciones) {
+//IMPRIME RECIBO
+function imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valor,nombretransaccion,consecutivo,observaciones,tipotransaccion){
 		if (notReady()) { return; }
 		// Send characters/raw commands to qz using "append"
 		// This example is for EPL.  Please adapt to your printer language
 		// Hint:  Carriage Return = \r, New Line = \n, Escape Double Quotes= \"
-		qz.append("Apuestas Azar S.A.\n\n");
+		qz.append("Apuestas Azar S.A.\n");
 		qz.append("Recaudo Efectivo Giros v2.0\n\n");
+		qz.append(tipotransaccion+"\n");
 		qz.append("Fecha y Hora: "+fechayhorapc+"\n");
-		qz.append("Cajero: "+cedulacajero+" ADRIANA NARANJO OLARTE\n");
+		qz.append("Cajero: "+cedulacajero+"\nADRIANA NARANJO OLARTE\n");
 		qz.append("Ccosto: "+centrodecosto+"\n");
 		qz.append("Punto: "+nombrepuntodeventa+"\n");
-		qz.append("Colocador: "+cedulacolocador+" - "+nombrescolocador+"\n");
+		qz.append("Colocador: "+cedulacolocador+"\n"+nombrescolocador+"\n");
 		qz.append("Valor: "+valor+"\n");
 		qz.append("Concepto: "+nombretransaccion+"\n");
 		qz.append("# Consecutivo: "+consecutivo+"\n");
@@ -100,9 +104,9 @@ function imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeven
 			
 		// Remove reference to this function
 		window['qzDoneAppending'] = null;
-		
-	 }
- 
+}
+
+//REIMPRIME RECIBO
 function reimprimirRecibo(){
 	
 	var fechayhorapc = localStorage.fechayhoraPC;
@@ -116,8 +120,10 @@ function reimprimirRecibo(){
 	var nombretransaccion = localStorage.nombretransaccion;
 	var consecutivo = localStorage.consecutivo;
 	var observaciones = localStorage.observaciones;
+	var tipotransaccion = localStorage.tipotransaccion;
 		
-	imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones);
+	imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 		localStorage.clear();
 	$("#reimprimir").addClass("disabled");
+	$("#reversarultimo").addClass("disabled");
 }

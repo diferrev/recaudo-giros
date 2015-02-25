@@ -1,3 +1,4 @@
+//DECLARANDO EL OBJETO PARA LAS LLAMADAS AJAX
 function objetoAjax(){
 	var xmlhttp=false;
 	try {
@@ -17,6 +18,7 @@ if (!xmlhttp && typeof XMLHttpRequest!="undefined") {
 	return xmlhttp;
 }
 
+//DEVUELVE LA FECHA Y HORA DEL PC
 function fechayhoraPC()
 {
 	var fecha = new Date();
@@ -50,9 +52,8 @@ function fechayhoraPC()
 	fechayhoraPC = dia+"/"+mes+"/"+fecha.getFullYear()+" "+hora+":"+min+":"+seg;
 	return fechayhoraPC;
 }
-//FUNCION QUE TRAE EL CENTRO DE COSTO AL EVENTO ONCHANGE
-//DEL CAMPO PUNTODEvENTA
 
+//FUNCION QUE DEVUELVE EL CENTRODECOSTO AL SELECCIONAR UN PUNTO DE VENTA
 function consultarCcosto(){
 	
 	var puntodeventa = $("#puntodeventa").val();
@@ -85,9 +86,7 @@ function consultarCcosto(){
 	
 }
 
-//FUNCION QUE TRAE NOMBRES Y APELLIDOS DEL COLOCADOR EN EL EVENTO ONCHANGE
-//DEL CAMPO CEDULACOLOCADOR
-
+//FUNCION QUE DEVUELVE NOMBRES Y APELLIDOS DEL COLOCADOR SEGUN LA CEDULA DIGITADA
 function consultarColocador(){
 	
 	var cedulacolocador = $("#cedulacolocador").val();
@@ -120,9 +119,8 @@ function consultarColocador(){
 	
 }
 
-//FUNCION QUE DEVUELVE EL NUMERO DE CONSECUTIVO DEL REGISTRO
-//SEGUN LA TRANSACCION
-
+//FUNCION QUE DEVUELVE EL NUMERO DE CONSECUTIVO DEL RECAUDO SEGUN 
+//PUNTODEVENTA, CEDULACOLOCADO Y TIPO DE TRANSACCION
 function numConsecutivo(){
 	
 	var cedulacolocador = $("#cedulacolocador").val();
@@ -165,10 +163,8 @@ function numConsecutivo(){
 	}
 }
 
-//FUNCION QUE DEVUELVE EL NUMERO DE CONSECUTIVO DEL REGISTRO
-//SEGUN LA TRANSACCION
-
-function insertarRegistro(){
+//REGISTRA EL RECAUDO
+function registrarRecaudo(){
 	
 	var fechayhorapc = fechayhoraPC();
 	var cedulacajero = 31431938;
@@ -185,6 +181,7 @@ function insertarRegistro(){
 	{
 		observaciones = "";
 	}
+	var tipotransaccion = "";
 	var valorString = $("#valor").val();
 	var valor = convertirValor(valorString);
 	
@@ -195,7 +192,6 @@ function insertarRegistro(){
 			$("#valor").focus();
 		}
 		else{
-			
 			localStorage.setItem('fechayhoraPC',fechayhorapc);
 			localStorage.setItem('cedulacajero',cedulacajero);
 			localStorage.setItem('puntodeventa',puntodeventa);
@@ -208,8 +204,8 @@ function insertarRegistro(){
 			localStorage.setItem('nombretransaccion',nombretransaccion);
 			localStorage.setItem('consecutivo',consecutivo);
 			localStorage.setItem('observaciones',observaciones);
+			localStorage.setItem('tipotransaccion',tipotransaccion);
 
-			
 			ajax = objetoAjax();
 			
 			ajax.open("POST","procedures/insertar-registro.php",true);
@@ -222,7 +218,7 @@ function insertarRegistro(){
 					
 					if(ajax.responseText == "OK"){
 						
-						imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones);
+						imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 						limpiaFormulario("#formRecaudo");
 						$("#reversarultimo").removeClass("disabled");
 						$("#reimprimir").removeClass("disabled");
@@ -243,7 +239,89 @@ function insertarRegistro(){
 	}
 }
 
-function reversarUltRegistro(){
+//REVERSA UN RECAUDO ESPECIFICADO
+function reversarRecaudo(){
+	
+	var fechayhorapc = fechayhoraPC();
+	var cedulacajero = 31431938;
+	var puntodeventa = $("#puntodeventa").val();
+	var nombrepuntodeventa = $("#puntodeventa option:selected").html();
+	var centrodecosto = $("#centrodecosto").val();
+	var cedulacolocador = $("#cedulacolocador").val();
+	var nombrescolocador = $("#nombrescolocador").val();
+	var transaccion = $("#transaccion").val();
+	var nombretransaccion = $("#transaccion option:selected").html();
+	var consecutivo = $("#consecutivo").val();
+	var observaciones = $("#observaciones").val();
+	if(!observaciones)
+	{
+		observaciones = "";
+	}
+	
+	var tipotransaccion = "Reversa pago";
+	var valorString = $("#valor").val();
+	var valor = convertirValor(valorString);
+	
+	if(valorString){
+		if(isNaN(valor) == true){
+			alert("El campo VALOR no debe contener espacios en blanco");
+			$("#valor").val("");
+			$("#valor").focus();
+		}
+		else{
+			
+			valor = "-" + valor;
+			valorString = "-" + valorString;
+			localStorage.setItem('fechayhoraPC',fechayhorapc);
+			localStorage.setItem('cedulacajero',cedulacajero);
+			localStorage.setItem('puntodeventa',puntodeventa);
+			localStorage.setItem('centrodecosto',centrodecosto);
+			localStorage.setItem('nombrepuntodeventa',nombrepuntodeventa);
+			localStorage.setItem('cedulacolocador',cedulacolocador);
+			localStorage.setItem('nombrescolocador',nombrescolocador);
+			localStorage.setItem('valor',valorString);
+			localStorage.setItem('transaccion',transaccion);
+			localStorage.setItem('nombretransaccion',nombretransaccion);
+			localStorage.setItem('consecutivo',consecutivo);
+			localStorage.setItem('observaciones',observaciones);
+			localStorage.setItem('tipotransaccion',tipotransaccion);
+
+			
+			ajax = objetoAjax();
+			
+			ajax.open("POST","procedures/insertar-registro.php",true);
+			ajax.onreadystatechange = function() {
+			 
+				if (ajax.readyState==1) {
+					
+				}
+				if (ajax.readyState==4) {
+					
+					if(ajax.responseText == "OK"){
+						
+						imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
+						limpiaFormulario("#formRecaudo");
+						$("#reversarultimo").addClass("disabled");
+						$("#reimprimir").removeClass("disabled");
+						
+					}
+					else{
+						transaccionError(ajax.responseText);
+					}
+
+				}
+			}
+			ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			ajax.send("fechayhorapc="+fechayhorapc+"&cedulacajero="+cedulacajero+"&cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
+		}
+	}
+	else{
+		alert("No ha ingresado un valor para la transacción");
+	}
+}
+
+//REVERSA EL ÚLTIMO RECAUDO REGISTRADO
+function reversarUltimoRecaudo(){
 	
 	var fechayhorapc = fechayhoraPC();
 	var cedulacajero = localStorage.cedulacajero;
@@ -259,7 +337,7 @@ function reversarUltRegistro(){
 	consecutivo = parseInt(consecutivo) + 1;
 	
 	var observaciones = localStorage.observaciones;
-	
+	var tipotransaccion = "Reversa pago";
 	var valor = convertirValor(valorString);
 		
 	localStorage.setItem('fechayhoraPC',fechayhorapc);
@@ -274,6 +352,7 @@ function reversarUltRegistro(){
 	localStorage.setItem('nombretransaccion',nombretransaccion);
 	localStorage.setItem('consecutivo',consecutivo);
 	localStorage.setItem('observaciones',observaciones);
+	localStorage.setItem('tipotransaccion',tipotransaccion);
 
 			
 	ajax = objetoAjax();
@@ -288,7 +367,7 @@ function reversarUltRegistro(){
 						
 			if(ajax.responseText == "OK"){
 							
-				imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones);
+				imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 				limpiaFormulario("#formRecaudo");
 				$("#reversarultimo").addClass("disabled");
 				

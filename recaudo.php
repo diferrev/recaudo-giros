@@ -11,8 +11,7 @@
 			<div class="form-group">
 				<label for="puntodeventa" class="col-sm-3 control-label">Punto de Venta</label>
 				<div class="col-sm-9">
-				
-					<?php $query = "SELECT s.codigo, s.nombre FROM sucursal s"; ?>
+					<?php $query = "SELECT s.codigo, s.nombre FROM sucursal s ORDER BY s.nombre"; ?>
 					<?php $puntosdeventa = ejecutarQuery($query);?>
 					
 					<select class="form-control" name="puntodeventa" id="puntodeventa" onChange="consultarCcosto()">
@@ -66,7 +65,7 @@
 						<input type="text" class="form-control" name="valor" id="valor" placeholder="0" onkeyup="formatearValor(this)" onfocus="validaTransaccion()"/>
 					</div>
 				</div>
-				<!--CAMPO DE CONSECUTIVO QUE SE AUTORELLENA EN EL EVENTO ONCHANGE DE TRANSACCION-->
+				<!--CAMPO DE CONSECUTIVO QUE SE AUTORELLENA EN EL EVENTO ONCHANGE DEL CAMPO TRANSACCION-->
 				<label for="consecutivo" class="col-sm-2 control-label">Consecutivo</label>
 				<div class="col-sm-3">
 					<input type="text" readonly="readonly" class="form-control" name="consecutivo" id="consecutivo"/>
@@ -82,11 +81,11 @@
 			
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
-					<input type="button" class="btn btn-sm btn-success disabled" value="Registrar Pago" id="registrar" onclick="insertarRegistro()"/>
-					<input type="button" class="btn btn-sm btn-primary disabled" value="Reversar Pago" id="reversar" />
-					<input type="button" class="btn btn-sm btn-primary disabled" value="Reversar Últ. Pago" id="reversarultimo" onclick="reversarUltRegistro()"/>
+					<input type="button" class="btn btn-sm btn-success disabled" value="Registrar Pago" id="registrar" onclick="registrarRecaudo()"/>
+					<input type="button" class="btn btn-sm btn-warning disabled" value="Reversar Pago" id="reversar" onclick="reversarRecaudo()"/>
+					<input type="button" class="btn btn-sm btn-primary disabled" value="Reversar Últ. Pago" id="reversarultimo" onclick="reversarUltimoRecaudo()"/>
 					<input type="button" class="btn btn-sm btn-primary disabled" value="Reimprimir" id="reimprimir" onclick="reimprimirRecibo()"/>
-					<input type="button" class="btn btn-sm btn-primary" value="Limpiar" onclick="limpiaFormulario('#formRecaudo')"/>
+					<input type="button" class="btn btn-sm btn-primary" value="Limpiar" id="limpiar" onclick="limpiaFormulario('#formRecaudo')"/>
 				</div>
 			</div>
 		</form>

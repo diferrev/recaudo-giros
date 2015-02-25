@@ -1,5 +1,5 @@
 <footer>
-	<div class="container">
+	<div class="container text-center">
 		<span>v. 2.0</span>
 	</div>
 </footer>
