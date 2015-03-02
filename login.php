@@ -1,4 +1,9 @@
 <!DOCTYPE HTML>
+<?php 
+session_start();
+if(!isset($_SESSION["documento"])){
+
+?>
 <html lang="es">
 <head>
 	<meta charset="utf-8">
@@ -6,6 +11,7 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" href="style.css" />
 </head>
+
 <body style="background-color:rgb(34, 49, 63);">
 <div class="containerLogin">
 	<header class="header text-center">
@@ -35,5 +41,10 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
 <script type="text/javascript" src="js/ajax.js"></script>
+<?php
+}else{
+	header("Location: /recaudogiros");
+}
+?>
 </body>
 </html>
