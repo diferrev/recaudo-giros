@@ -18,13 +18,91 @@ if (!xmlhttp && typeof XMLHttpRequest!="undefined") {
 	return xmlhttp;
 }
 
-//FUNCION DE LOGIN
+//LOGIN
 function login(){
+
 	var username = $("#username").val();
 	var password = $("#password").val();
 	
-	
+	ajax = objetoAjax();
+
+	ajax.open("POST","procedures/login.php",true);
+		
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4) {
+			if( ajax.responseText == "OK" ){
+				alerts("Su usuario y contraseña son correctos","alert-success");
+				setTimeout("redireccionar('/recaudogiros')", 1000)
+			}else{
+				alerts("Su usuario y contraseña son incorrectos","alert-warning");
+				limpiaFormulario("#formLogin");
+				$("#username").focus();
+			}
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("username="+username+"&password="+password)
 }
+
+//LOGOUT
+function logout(a){
+	
+	$(this).click(function(event){
+    event.preventDefault();
+	});
+	
+	ajax = objetoAjax();
+
+	ajax.open("GET","procedures/logout.php",true);
+		
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4) {
+			setTimeout("redireccionar('/recaudogiros/login.php')", 500)
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send()
+}
+
+//CAMBIA PASSWORD
+function cambiarPwd(){
+	
+	if(vacio($("#pwdactual")) == true){
+		alert("El campo de contraseña actual no puede estar vacio.");
+		$("#pwdactual").focus();
+	}else if(vacio($("#pwdnuevo1")) == true){
+		alert("El campo de contraseña nueva no puede estar vacio.");
+		$("#pwdnuevo1").focus();
+	}else if(vacio($("#pwdnuevo2")) == true){
+		alert("El campo de confirmar contraseña nueva no puede estar vacio.");
+		$("#pwdnuevo2").focus();
+	}else{
+		var username = $("#username").val();
+		var pwdactual = $("#pwdactual").val();
+		var pwdnuevo1 = $("#pwdnuevo1").val();
+		var pwdnuevo2 = $("#pwdnuevo2").val();
+		if(pwdnuevo1 == pwdnuevo2){
+			ajax = objetoAjax();
+			ajax.open("POST","procedures/cambiar-passwd.php",true);
+			ajax.onreadystatechange = function(){
+				if (ajax.readyState == 4) {
+					if(ajax.responseText == "OK"){
+						alert("Cambio de contraseña realizado correctamente, se cerrará la sesión.");
+						logout();
+					}else{
+						error = ajax.responseText;
+						alerts("La constraseña actual no es correcta","alert-warning");
+						$("#pwdactual").val("").focus();
+					}
+				}
+			}
+			ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			ajax.send("username="+username+"&pwdactual="+pwdactual+"&pwdnuevo="+pwdnuevo1);
+		}else{
+			alerts("Las nuevas contraseñas no coinciden.","alert-warning");
+		}
+	}
+} 
 
 //DEVUELVE LA FECHA Y HORA DEL PC
 function fechayhoraPC()
@@ -174,7 +252,8 @@ function numConsecutivo(){
 function registrarRecaudo(){
 	
 	var fechayhorapc = fechayhoraPC();
-	var cedulacajero = 31431938;
+	var cedulacajero = $("#cedulacajero").text();
+	var nombrescajero = $("#nombrescajero").text();
 	var puntodeventa = $("#puntodeventa").val();
 	var nombrepuntodeventa = $("#puntodeventa option:selected").html();
 	var centrodecosto = $("#centrodecosto").val();
@@ -201,6 +280,7 @@ function registrarRecaudo(){
 		else{
 			localStorage.setItem('fechayhoraPC',fechayhorapc);
 			localStorage.setItem('cedulacajero',cedulacajero);
+			localStorage.setItem('nombrescajero',nombrescajero);
 			localStorage.setItem('puntodeventa',puntodeventa);
 			localStorage.setItem('centrodecosto',centrodecosto);
 			localStorage.setItem('nombrepuntodeventa',nombrepuntodeventa);
@@ -226,7 +306,7 @@ function registrarRecaudo(){
 					
 					if(ajax.responseText == "OK"){
 						
-						imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
+						imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 						limpiaFormulario("#formRecaudo");
 						$("#reversarultimo").removeClass("disabled");
 						$("#reimprimir").removeClass("disabled");
@@ -251,7 +331,8 @@ function registrarRecaudo(){
 function reversarRecaudo(){
 	
 	var fechayhorapc = fechayhoraPC();
-	var cedulacajero = 31431938;
+	var cedulacajero = $("#cedulacajero").text();
+	var nombrescajero = $("#nombrescajero").text();
 	var puntodeventa = $("#puntodeventa").val();
 	var nombrepuntodeventa = $("#puntodeventa option:selected").html();
 	var centrodecosto = $("#centrodecosto").val();
@@ -282,6 +363,7 @@ function reversarRecaudo(){
 			valorString = "-" + valorString;
 			localStorage.setItem('fechayhoraPC',fechayhorapc);
 			localStorage.setItem('cedulacajero',cedulacajero);
+			localStorage.setItem('nombrescajero',nombrescajero);
 			localStorage.setItem('puntodeventa',puntodeventa);
 			localStorage.setItem('centrodecosto',centrodecosto);
 			localStorage.setItem('nombrepuntodeventa',nombrepuntodeventa);
@@ -307,7 +389,7 @@ function reversarRecaudo(){
 					
 					if(ajax.responseText == "OK"){
 						
-						imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
+						imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 						limpiaFormulario("#formRecaudo");
 						$("#reversarultimo").addClass("disabled");
 						$("#reimprimir").removeClass("disabled");
@@ -333,6 +415,7 @@ function reversarUltimoRecaudo(){
 	
 	var fechayhorapc = fechayhoraPC();
 	var cedulacajero = localStorage.cedulacajero;
+	var nombrescajero = localStorage.nombrescajero;
 	var centrodecosto = localStorage.centrodecosto;
 	var puntodeventa = localStorage.puntodeventa;
 	var nombrepuntodeventa = localStorage.nombrepuntodeventa;
@@ -350,6 +433,7 @@ function reversarUltimoRecaudo(){
 		
 	localStorage.setItem('fechayhoraPC',fechayhorapc);
 	localStorage.setItem('cedulacajero',cedulacajero);
+	localStorage.setItem('nombrescajero',nombrescajero);
 	localStorage.setItem('centrodecosto',centrodecosto);
 	localStorage.setItem('puntodeventa',puntodeventa);
 	localStorage.setItem('nombrepuntodeventa',nombrepuntodeventa);
@@ -375,7 +459,7 @@ function reversarUltimoRecaudo(){
 						
 			if(ajax.responseText == "OK"){
 							
-				imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
+				imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 				limpiaFormulario("#formRecaudo");
 				$("#reversarultimo").addClass("disabled");
 				

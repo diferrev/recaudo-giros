@@ -1,10 +1,30 @@
+function alerts(t,a){
+	var alert = $("#alert");
+	alert.addClass(a);
+	alert.html(t);
+	alert.slideDown(400).delay(2500).slideUp(400,function(){
+		alert.html("");
+		alert.removeClass(a);
+	});
+}
+function redireccionar(p) {
+	location.href=p;
+} 
 function cargarContenido(div,url,a){
 	
 	$(this).click(function(event){
     event.preventDefault();
 	});
 	
-	$(div).hide().load(url).fadeIn(500);
+	$(div).load(url);
+}
+//DEVUELVE SI EL CAMPO ESTA VACIO O NO
+function vacio(c){
+	if(c.val().length == 0){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 //AGREGA SEPARACION DE MILES
@@ -87,7 +107,7 @@ function transaccionError(text){
 }
 
 //IMPRIME RECIBO
-function imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valor,nombretransaccion,consecutivo,observaciones,tipotransaccion){
+function imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valor,nombretransaccion,consecutivo,observaciones,tipotransaccion){
 		if (notReady()) { return; }
 		// Send characters/raw commands to qz using "append"
 		// This example is for EPL.  Please adapt to your printer language
@@ -96,7 +116,7 @@ function imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeven
 		qz.append("Recaudo Efectivo Giros v2.0\n\n");
 		qz.append(tipotransaccion+"\n");
 		qz.append("Fecha y Hora: "+fechayhorapc+"\n");
-		qz.append("Cajero: "+cedulacajero+"\nADRIANA NARANJO OLARTE\n");
+		qz.append("Cajero: "+cedulacajero+"\n"+nombrescajero+"\n");
 		qz.append("Ccosto: "+centrodecosto+"\n");
 		qz.append("Punto: "+nombrepuntodeventa+"\n");
 		qz.append("Colocador: "+cedulacolocador+"\n"+nombrescolocador+"\n");
@@ -120,6 +140,7 @@ function reimprimirRecibo(){
 	
 	var fechayhorapc = localStorage.fechayhoraPC;
 	var cedulacajero = localStorage.cedulacajero;
+	var nombrescajero = localStorage.nombrescajero;
 	var centrodecosto = localStorage.centrodecosto;
 	var nombrepuntodeventa = localStorage.nombrepuntodeventa;
 	var cedulacolocador = localStorage.cedulacolocador;
@@ -131,7 +152,7 @@ function reimprimirRecibo(){
 	var observaciones = localStorage.observaciones;
 	var tipotransaccion = localStorage.tipotransaccion;
 		
-	imprimirRecibo(fechayhorapc,cedulacajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
+	imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 		localStorage.clear();
 	$("#reimprimir").addClass("disabled");
 	$("#reversarultimo").addClass("disabled");

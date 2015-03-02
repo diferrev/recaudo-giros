@@ -1,5 +1,12 @@
 <!DOCTYPE HTML>
-<?php require_once("procedures/conec.php");?>
+<?php
+session_start();
+if(!$_SESSION["documento"]){
+	header("Location: login.php");
+}
+require_once("procedures/conec.php");
+
+?>
 <html lang="es">
 <head>
 	<meta charset="utf-8">
@@ -15,8 +22,8 @@
 			<span class="header__subtitle">Apuestas Azar S.A.</span>
 		</div>
 		<div class="col-sm-6 user">
-			<span class="user__data">31431389 - ADRIANA NARANJO OLARTE</span>
-			<a href="" class="user__logout tbn btn-sm btn-primary">Cerrar sesión</a>
+			<p class="user__data"><span id="cedulacajero"><?php echo $_SESSION["documento"];?></span> - <span id="nombrescajero"><?php echo $_SESSION["nombres"];?> <?php echo $_SESSION["apellidos"];?></span></p>
+			<a href="" class="user__logout tbn btn-sm btn-primary" onclick="cargarContenido('#contenido','cambiar-passwd.php',this)">Cambiar contraseña</a> <a href="" class="user__logout tbn btn-sm btn-primary" onclick="logout(this)">Cerrar sesión</a>
 		</div>
 	</div>
 </header>

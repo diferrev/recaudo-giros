@@ -12,7 +12,8 @@
 		<h1 class="header__title">Recaudo de Efectivo de Giros</h1>
 		<span class="header__subtitle">Apuestas Azar S.A.</span>
 	</header>
-	<form action="" method="post" role="form" name="loginForm" id="loginForm">
+	<div class="alert" id="alert"></div>
+	<form action="" method="post" role="form" name="formLogin" id="formLogin">
 		<p>
 		<div class="input-group">
 			<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
@@ -26,7 +27,7 @@
 		</div>
 		</p>
 		<p class="text-center">
-			<input type="submit" value="Iniciar sesión" class="btn btn-primary"/>
+			<input type="button" value="Iniciar sesión" class="btn btn-primary" onclick="login()"/>
 		</p>
 	</form>
 </div>
