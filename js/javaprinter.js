@@ -48,8 +48,8 @@
 			$("#activarImpresora").slideDown(500);
 			return true;
 		}else{
-			$("#registrar").removeClass("disabled");
-			$("#reversar").removeClass("disabled");
+			$("#registrar").removeClass("disabled").removeAttr("disabled");
+			$("#reversar").removeClass("disabled").removeAttr("disabled");
 		}
 		return false;
 	}
@@ -113,8 +113,8 @@
 				// Remove reference to this function
 				window['qzDoneFinding'] = null;
 				$("#activarImpresora").slideUp(500);
-				$("#registrar").removeClass("disabled");
-				$("#reversar").removeClass("disabled");
+				$("#registrar").removeClass("disabled").removeAttr("disabled");
+				$("#reversar").removeClass("disabled").removeAttr("disabled");
 			};
 		}else{
 			$("#activarImpresora").slideDown(500);

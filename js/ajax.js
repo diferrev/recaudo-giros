@@ -308,8 +308,8 @@ function registrarRecaudo(){
 						
 						imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 						limpiaFormulario("#formRecaudo");
-						$("#reversarultimo").removeClass("disabled");
-						$("#reimprimir").removeClass("disabled");
+						$("#reversarultimo").removeClass("disabled").removeAttr("disabled");
+						$("#reimprimir").removeClass("disabled").removeAttr("disabled");
 						
 					}
 					else{
@@ -391,8 +391,8 @@ function reversarRecaudo(){
 						
 						imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 						limpiaFormulario("#formRecaudo");
-						$("#reversarultimo").addClass("disabled");
-						$("#reimprimir").removeClass("disabled");
+						$("#reversarultimo").addClass("disabled").attr("disabled","disabled");
+						$("#reimprimir").removeClass("disabled").removeAttr("disabled");
 						
 					}
 					else{
@@ -461,7 +461,7 @@ function reversarUltimoRecaudo(){
 							
 				imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 				limpiaFormulario("#formRecaudo");
-				$("#reversarultimo").addClass("disabled");
+				$("#reversarultimo").addClass("disabled").attr("disabled","disabled");
 				
 			}
 			else{
