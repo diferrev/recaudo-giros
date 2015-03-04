@@ -12,6 +12,7 @@ require_once("procedures/conec.php");
 	<meta charset="utf-8">
 	<title>Recaudo de Efectivo de Giros</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/smoothness/jquery-ui-1.10.3.custom.min.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="style.css" />
 </head>
 <body>

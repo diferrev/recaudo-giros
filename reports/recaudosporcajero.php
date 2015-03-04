@@ -8,7 +8,7 @@ class PDF extends FPDF
 {
 	function Header()
 	{
-		$fecha = date("Y-m-d");
+		$fecha = $_POST["fecha"];
 		$fechageneracion = date("Y-m-d H:i:s");
 		$cedulacajero = $_POST["cedulacajero"];
 		$nombrescajero = $_POST["nombrescajero"];
@@ -62,7 +62,7 @@ $pdf->AddPage();
 conectar();
 
 //CAPTURA LA VARIABLES PASADAS
-$fecha = date("Y-m-d");
+$fecha = $_POST["fecha"];
 $cedulafiltro = $_POST["cedulafiltro"];
 
 
