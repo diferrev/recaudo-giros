@@ -1,5 +1,6 @@
 <?php require_once("procedures/conec.php");?>
 <?php require_once("functions.php");?>
+<?php session_start();?>
 <div id="activarImpresora" class="alert alert-warning text-center" role="alert">
 			Recuerde activar la impresora antes de empezar a recaudar  <button class="btn btn-sm btn-default" onclick="useDefaultPrinter()">Activar Impresora</button>
 </div>
@@ -9,7 +10,10 @@
 	<div class="form-group">
 		<label for="puntodeventa" class="col-sm-3 control-label">Punto de Venta</label>
 		<div class="col-sm-9">
-		<?php $query = "SELECT s.codigo, s.nombre FROM sucursal s ORDER BY s.nombre"; ?>
+		<?php
+		$centrodecosto = $_SESSION["centrodecosto"];
+		$query = "SELECT s.codigo, s.nombre FROM sucursal s WHERE s.cod_ccosto = ".$centrodecosto." ORDER BY s.nombre"; 
+		?>
 		<?php $puntosdeventa = ejecutarQuery($query);?>
 			<select class="form-control" name="puntodeventa" id="puntodeventa" onChange="consultarCcosto()">
 				<option value="NULL">- SELECCIONE EL PUNTO DE VENTA -</option>
