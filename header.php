@@ -4,8 +4,7 @@ session_start();
 if(!$_SESSION["documento"]){
 	header("Location: login.php");
 }
-require_once("procedures/conec.php");
-
+require("procedures/conec.php");
 ?>
 <html lang="es">
 <head>
@@ -28,7 +27,6 @@ require_once("procedures/conec.php");
 		</div>
 	</div>
 </header>
-
 <nav class="navbar navbar-inverse">
   <div class="container">
     <div class="navbar-header">
@@ -44,6 +42,9 @@ require_once("procedures/conec.php");
         <li><a href="" onclick="cargarContenido('#contenido','home.php',this)">Inicio</a></li>
         <li><a href="" onclick="cargarContenido('#contenido','recaudo.php',this)">Recaudo</a></li>
 		<li><a href="" onclick="cargarContenido('#contenido','reportes.php',this)">Reportes</a></li>
+		<?php if($_SESSION["rol"] == 1){?>
+		<li><a href="" onclick="cargarContenido('#contenido','admin/index.php',this)">Administración</a></li>
+		<?php }?>
       </ul>
     </div>
   </div>

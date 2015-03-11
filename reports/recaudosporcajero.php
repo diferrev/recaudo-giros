@@ -1,9 +1,7 @@
 <?php
 session_start();
-
 require_once ("../procedures/conec.php");
 require_once ("../lib/fpdf/fpdf.php");
-
 class PDF extends FPDF
 {
 	function Header()
@@ -58,45 +56,57 @@ $pdf->AliasNbPages();
 $pdf->SetFont("Arial","",7);
 $pdf->AddPage();
 
-//CONECTAMOS A LA BASE DE DATOS
+//Conecta a la base de datos
 conectar();
 
-//CAPTURA LA VARIABLES PASADAS
+//Declaracion de variables
 $fecha = $_POST["fecha"];
 $cedulafiltro = $_POST["cedulafiltro"];
+$centrodecosto = $_SESSION["centrodecosto"];
 
-
-//SELECCION DE PUNTOS DE VENTA CON TRANSACCION PARA LA FECHA Y CAJERO
-$qcajeros = "SELECT DISTINCT r.cod_cajero, c.nombres, c.apellido1, c.apellido2 FROM cajeros c, registros r 
+//Selecciona los cajeros con registros para la fecha, centro de costo y filtrado por una o todas las cedulas
+$qcajeros = "SELECT DISTINCT r.cod_cajero, c.nombres, c.apellido1, c.apellido2 FROM cajeros c, registros r, sucursal s
 WHERE r.cod_cajero = c.documento
+AND r.cod_punto = s.codigo
+AND s.cod_ccosto = ".$centrodecosto."
 AND r.fecha = '".$fecha."' 
 AND r.cod_cajero LIKE '".$cedulafiltro."'";
 $cajeros = mysql_query($qcajeros);
 $totalcajeros = 0;
-
+//Ciclo que pasa por cada cajero encontrado
 while($cajero = mysql_fetch_array($cajeros)){
+//Escribe en el archivo la cedula, nombres y apellidos del cajero
 $pdf->Cell(0,5,$cajero[0]." ".$cajero[1]." ".$cajero[2]." ".$cajero[3],0,0,"C");
 $pdf->Ln();
-$qtransacciones = "SELECT DISTINCT r.cod_trans, t.nombre FROM transacciones t, registros r
+//Selecciona los transacciones del cajero, centro de costo y fecha
+$qtransacciones = "SELECT DISTINCT r.cod_trans, t.nombre FROM transacciones t, registros r, sucursal s
 WHERE r.cod_trans = t.codigo
+AND r.cod_punto = s.codigo
+AND s.cod_ccosto = ".$centrodecosto."
 AND r.fecha = '".$fecha."'
 AND r.cod_cajero = ".$cajero[0];
 $transacciones = mysql_query($qtransacciones);
 $totalcajero = 0;
-
+	//Ciclo que pasa por cada transaccion encontrada
 	while($transaccion = mysql_fetch_array($transacciones)){
+	//escribe en el archivo codigo y nombre de la transaccion
 	$pdf->Cell(25,5," ",0,0,"L");
 	$pdf->Cell(0,5,$transaccion[0]." ".$transaccion[1],0,0,"L");
 	$pdf->Ln();
+	//Selecciona los registros para la transaccion, fecha, cajero y centro de costo
 	$qregistros = "SELECT s.nombre, r.cod_asesor, a.nombres, a.apellido1, a.apellido2, CASE WHEN r.cod_trans IN (3,5,6,8,9) THEN r.valor*-1 ELSE r.valor END 'valor', r.num_mvto, date_format(r.fechayhora,'%H:%i:%S') 'hora',r.observaciones
 	FROM registros r, asesores a, sucursal s
 	WHERE r.cod_asesor = a.documento
+	AND r.cod_punto = s.codigo
+	AND s.cod_ccosto = ".$centrodecosto."
 	AND r.cod_punto = s.codigo
 	AND r.fecha = '".$fecha."'
 	AND r.cod_cajero = ".$cajero[0]."
 	AND r.cod_trans = ".$transaccion[0];
 	$registros = mysql_query($qregistros);
+		//Ciclo que pasa por cada registro encontrado
 		while($registro = mysql_fetch_array($registros)){
+		//Escribe en el archivo la informacion de cada registro
 		$pdf->Cell(45,5,$registro[0],0,0,"L");
 		$pdf->Cell(20,5,$registro[1],0,0,"R");
 		$pdf->Cell(58,5,utf8_decode($registro[2]." ".$registro[3]." ".$registro[4]),0,0,"L");
@@ -105,18 +115,23 @@ $totalcajero = 0;
 		$pdf->Cell(12,5,$registro[7],0,0,"C");
 		$pdf->Cell(30,5,$registro[8],0,0,"L");
 		$pdf->Ln();
+		//Suma cada valor del registro a un total de cajero
 		$totalcajero = $totalcajero + $registro[5];
 		}
 	}
+	//Escribe en el archivo el valor total de cajero
 	$pdf->SetFont("Arial","B",7);
 	$pdf->Cell(123,5,"TOTAL CAJERO: ",0,0,"R");
 	$pdf->Cell(20,5,"$ ".number_format($totalcajero,0,",","."),0,0,"R");
 	$pdf->Ln(7);
 	$pdf->SetFont("Arial","",7);
+	//Suma cada valor total de cajero a un valor total de todos los cajero
 	$totalcajeros = $totalcajeros + $totalcajero;
 }
+//Escribe en el archivo en valor total de todos los cajero
 $pdf->SetFont("Arial","B",9);
 $pdf->Cell(0,5,"TOTAL CAJEROS: $ ".number_format($totalcajeros,0,",","."),0,0,"C");
 $pdf->Ln();
-$pdf->Output();
+desconectar();
+$pdf->Output("REPORTE 4 - RECAUDOS DE EFECTIVO POR CAJERO","I");
 ?>

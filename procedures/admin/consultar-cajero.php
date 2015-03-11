@@ -1,14 +1,10 @@
 <?php
- 
-include("conec.php");
+include("../conec.php");
 conectar();
 
-$cedulacolocador = $_POST["cedulacolocador"];
-
-$query = "SELECT a.nombres,a.apellido1,a.apellido2 FROM asesores a WHERE a.documento = ".$cedulacolocador;
-
+$documento = $_POST["documento"];
+$query = "SELECT nombres,apellido1,apellido2 FROM cajeros WHERE documento = ".$documento;
 $result = mysql_query($query) or die ("Problema con la consulta ".mysql_error());
-
 $numrows = mysql_num_rows($result);
 
 if($numrows == false){
@@ -16,11 +12,9 @@ if($numrows == false){
 }
 else{
 	$row = mysql_fetch_array($result);
-
 	$nombres = $row[0];
 	$apellido1 = $row[1];
 	$apellido2 = $row[2];
-
 	echo $nombres." ".$apellido1." ".$apellido2;
 }
 ?>

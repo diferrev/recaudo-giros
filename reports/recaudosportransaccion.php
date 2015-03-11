@@ -1,9 +1,7 @@
 <?php
 session_start();
-
 require_once ("../procedures/conec.php");
 require_once ("../lib/fpdf/fpdf.php");
-
 class PDF extends FPDF
 {
 	function Header()
@@ -58,28 +56,32 @@ $pdf->AliasNbPages();
 $pdf->SetFont("Arial","",7);
 $pdf->AddPage();
 
-//CONECTAMOS A LA BASE DE DATOS
+//Conecta a la base de datos
 conectar();
 
-//CAPTURA LA VARIABLES PASADAS
+//Declaracion de variables
 $fecha = date("Y-m-d");
 $cedulacajero = $_POST["cedulacajero"];
 $centrodecosto = $_POST["centrodecosto"];
 
-//SELECCION DE TRANSACCIONES PARA LA FECHA Y CAJERO
-$qtransacciones = "SELECT DISTINCT r.cod_trans, t.nombre FROM transacciones t, registros r
+//Selecciona las transacciones para la fecha, el cajero y el centro de costo
+$qtransacciones = "SELECT DISTINCT r.cod_trans, t.nombre FROM transacciones t, registros r, sucursal s
 WHERE r.cod_trans = t.codigo
+AND r.cod_punto = s.codigo
 AND r.fecha = '".$fecha."'
 AND r.cod_cajero = ".$cedulacajero."
+AND s.cod_ccosto = ".$centrodecosto."
 ORDER BY r.fechayhora";
 $transacciones = mysql_query($qtransacciones);
 $totalcajero = 0;
-
+//Ciclo que pasa por cada transaccion encontrada
 while($transaccion = mysql_fetch_array($transacciones)){
+//Escribe en el archivo el codigo y nombre de la transaccion
 $pdf->Cell(25,5," ",0,0,"L");
 $pdf->Cell(0,5,$transaccion[0]." ".$transaccion[1],0,0,"L");
 $pdf->Ln();
 $totaltransaccion = 0;
+//Selecciona los registros para la transaccion, fecha, cajero y centro de costo
 $qregistros = "SELECT s.nombre,r.cod_asesor, a.nombres, a.apellido1, a.apellido2, CASE WHEN r.cod_trans IN (3,5,6,8,9) THEN r.valor*-1 ELSE r.valor END 'valor',r.num_mvto, date_format(r.fechayhora,'%H:%i:%S') 'hora',r.observaciones
 FROM registros r, asesores a, sucursal s
 WHERE r.cod_asesor = a.documento
@@ -87,9 +89,12 @@ AND r.cod_punto = s.codigo
 AND r.fecha = '".$fecha."'
 AND r.cod_cajero = ".$cedulacajero."
 AND r.cod_trans = ".$transaccion[0]."
+AND s.cod_ccosto = ".$centrodecosto."
 ORDER BY s.nombre";
 $registros = mysql_query($qregistros);
+	//Ciclo que pasa por cada registro encontrado
 	while($registro = mysql_fetch_array($registros)){
+	//Escribe en el archivo la informacion de cada registro
 	$pdf->Cell(45,5,$registro[0],0,0,"L");
 	$pdf->Cell(20,5,$registro[1],0,0,"R");
 	$pdf->Cell(58,5,utf8_decode($registro[2]." ".$registro[3]." ".$registro[4]),0,0,"L");
@@ -98,19 +103,22 @@ $registros = mysql_query($qregistros);
 	$pdf->Cell(12,5,$registro[7],0,0,"C");
 	$pdf->Cell(30,5,$registro[8],0,0,"L");
 	$pdf->Ln();
+	//Suma el valor de cada registro a un total de la transaccion
 	$totaltransaccion = $totaltransaccion + $registro[5];
 	}
+	//Escribe el total de la transaccion
 	$pdf->SetFont("Arial","B",7);
 	$pdf->Cell(123,5,utf8_decode("TOTAL TRANSACCIÓN: "),0,0,"R");
 	$pdf->Cell(20,5,"$ ".number_format($totaltransaccion,0,",","."),0,0,"R");
 	$pdf->Ln(7);
 	$pdf->SetFont("Arial","",7);
+	//Suma el valor total de la transaccion a un total cajero
 	$totalcajero = $totalcajero + $totaltransaccion;
 }
-
+//Escribe en el archivo el total del cajero
 $pdf->SetFont("Arial","B",9);
 $pdf->Cell(0,5,"TOTAL CAJERO: $ ".number_format($totalcajero,0,",","."),0,0,"C");
 $pdf->Ln();
-$pdf->Output();
-
+desconectar();
+$pdf->Output("REPORTE 2 - RECAUDOS DE EFECTIVO POR TRANSACCION","I");
 ?>

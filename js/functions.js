@@ -20,7 +20,9 @@ function cargarContenido(div,url,a){
 }
 //DEVUELVE SI EL CAMPO ESTA VACIO O NO
 function vacio(c){
-	if(c.val().length == 0){
+	c = c.val();
+	c = c.toString();
+	if(c.length == 0){
 		return true;
 	}else{
 		return false;

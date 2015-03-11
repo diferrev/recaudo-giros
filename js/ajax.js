@@ -169,12 +169,10 @@ function consultarCcosto(){
 	else{
 		centrodecosto.val("");
 	}
-	
 }
 
 //FUNCION QUE DEVUELVE NOMBRES Y APELLIDOS DEL COLOCADOR SEGUN LA CEDULA DIGITADA
 function consultarColocador(){
-	
 	var cedulacolocador = $("#cedulacolocador").val();
 	var nombrescolocador = $("#nombrescolocador");
 	
@@ -182,7 +180,6 @@ function consultarColocador(){
 
 	ajax.open("POST","procedures/consultar-colocador.php",true);
 	ajax.onreadystatechange = function() {
-	 
 		if (ajax.readyState==1) {
 			nombrescolocador.val("CARGANDO NOMBRES Y APELLIDOS");
 		}
@@ -202,17 +199,14 @@ function consultarColocador(){
 	}
 	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax.send("cedulacolocador="+cedulacolocador)
-	
 }
 
 //FUNCION QUE DEVUELVE EL NUMERO DE CONSECUTIVO DEL RECAUDO SEGUN PUNTODEVENTA, CEDULACOLOCADO Y TIPO DE TRANSACCION
 function numConsecutivo(){
-	
 	var cedulacolocador = $("#cedulacolocador").val();
 	var puntodeventa = $("#puntodeventa").val();
 	var transaccion = $("#transaccion").val();
 	var consecutivo = $("#consecutivo");
-	
 	if(transaccion != 0){
 		if(puntodeventa == "NULL"){
 			alert("Debe seleccionar PUNTO DE VENTA");
@@ -241,7 +235,6 @@ function numConsecutivo(){
 			}
 			ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 			ajax.send("cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion)
-			
 		}
 	}else{
 		consecutivo.val("");
@@ -250,7 +243,6 @@ function numConsecutivo(){
 
 //REGISTRA EL RECAUDO
 function registrarRecaudo(){
-	
 	var fechayhorapc = fechayhoraPC();
 	var cedulacajero = $("#cedulacajero").text();
 	var nombrescajero = $("#nombrescajero").text();
@@ -270,7 +262,6 @@ function registrarRecaudo(){
 	var tipotransaccion = "";
 	var valorString = $("#valor").val();
 	var valor = convertirValor(valorString);
-	
 	if(valorString){
 		if(isNaN(valor) == true){
 			alert("El campo VALOR no debe contener espacios en blanco");
@@ -292,16 +283,11 @@ function registrarRecaudo(){
 			localStorage.setItem('consecutivo',consecutivo);
 			localStorage.setItem('observaciones',observaciones);
 			localStorage.setItem('tipotransaccion',tipotransaccion);
-
 			
 			ajax = objetoAjax();
 			
 			ajax.open("POST","procedures/insertar-registro.php",true);
-			ajax.onreadystatechange = function() {
-			 
-				if (ajax.readyState==1) {
-					
-				}
+			ajax.onreadystatechange = function(){
 				if (ajax.readyState==4) {
 					
 					if(ajax.responseText == "OK"){
@@ -315,7 +301,6 @@ function registrarRecaudo(){
 					else{
 						transaccionError(ajax.responseText);
 					}
-
 				}
 			}
 			ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -329,7 +314,6 @@ function registrarRecaudo(){
 
 //REVERSA UN RECAUDO ESPECIFICADO
 function reversarRecaudo(){
-	
 	var fechayhorapc = fechayhoraPC();
 	var cedulacajero = $("#cedulacajero").text();
 	var nombrescajero = $("#nombrescajero").text();
@@ -346,11 +330,9 @@ function reversarRecaudo(){
 	{
 		observaciones = "";
 	}
-	
 	var tipotransaccion = "Reversa pago";
 	var valorString = $("#valor").val();
 	var valor = convertirValor(valorString);
-	
 	if(valorString){
 		if(isNaN(valor) == true){
 			alert("El campo VALOR no debe contener espacios en blanco");
@@ -376,9 +358,7 @@ function reversarRecaudo(){
 			localStorage.setItem('observaciones',observaciones);
 			localStorage.setItem('tipotransaccion',tipotransaccion);
 
-			
 			ajax = objetoAjax();
-			
 			ajax.open("POST","procedures/insertar-registro.php",true);
 			ajax.onreadystatechange = function() {
 			 
@@ -398,7 +378,6 @@ function reversarRecaudo(){
 					else{
 						transaccionError(ajax.responseText);
 					}
-
 				}
 			}
 			ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -412,7 +391,6 @@ function reversarRecaudo(){
 
 //REVERSA EL RECAUDO
 function reversarUltimoRecaudo(){
-	
 	var fechayhorapc = fechayhoraPC();
 	var cedulacajero = localStorage.cedulacajero;
 	var nombrescajero = localStorage.nombrescajero;
@@ -445,16 +423,11 @@ function reversarUltimoRecaudo(){
 	localStorage.setItem('consecutivo',consecutivo);
 	localStorage.setItem('observaciones',observaciones);
 	localStorage.setItem('tipotransaccion',tipotransaccion);
-
-			
+		
 	ajax = objetoAjax();
 			
 	ajax.open("POST","procedures/insertar-registro.php",true);
-	ajax.onreadystatechange = function() {
-			 
-		if (ajax.readyState==1) {
-						
-		}
+	ajax.onreadystatechange = function(){
 		if (ajax.readyState==4) {
 						
 			if(ajax.responseText == "OK"){
@@ -462,14 +435,241 @@ function reversarUltimoRecaudo(){
 				imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,nombrepuntodeventa,cedulacolocador,nombrescolocador,valorString,nombretransaccion,consecutivo,observaciones,tipotransaccion);
 				limpiaFormulario("#formRecaudo");
 				$("#reversarultimo").addClass("disabled").attr("disabled","disabled");
-				
 			}
 			else{
 				transaccionError(ajax.responseText);
 			}
-
 		}
 	}
 	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax.send("fechayhorapc="+fechayhorapc+"&cedulacajero="+cedulacajero+"&cedulacolocador="+cedulacolocador+"&puntodeventa="+puntodeventa+"&transaccion="+transaccion+"&consecutivo="+consecutivo+"&valor="+valor+"&observaciones="+observaciones)
+}
+
+function crearCajero(){
+	if(vacio($("#documento")) == true){
+		alert("El campo de Documento debe estar rellenado");
+	}
+	else if(vacio($("#nombrecajero")) == true){
+		alert("El campo de Nombres debe estar rellenado");
+	}
+	else if(vacio($("#apellido1cajero")) == true){
+		alert("El campo de Primer Apellido debe estar rellenado");
+	}
+	else if($("#centrodecosto").val() == "NULL"){
+		alert("Debe seleccionar el Centro de Costo del cajero");
+	}
+	else{
+		var cedulacajero = $("#documento").val();
+		var nombrescajero = $("#nombrecajero").val();
+		var apellido1cajero = $("#apellido1cajero").val();
+		var apellido2cajero = $("#apellido2cajero").val();
+		var centrodecosto = $("#centrodecosto").val();
+		if(!apellido2cajero)
+		{
+		apellido2cajero = "";
+		}
+
+		ajax = objetoAjax();
+
+		ajax.open("POST","procedures/admin/crear-cajero.php",true);
+		ajax.onreadystatechange = function() {
+		 
+			if (ajax.readyState == 4) {
+				if(ajax.responseText == "OK"){
+					alerts("Cajero creado correctamente","alert-success");
+					limpiaFormulario("#formCrearCajero");
+				}else{
+					var error = ajax.responseText;
+					alerts(error,"alert-danger");
+					limpiaFormulario("#formCrearCajero");
+				}
+			}
+		}
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send("cedulacajero="+cedulacajero+"&nombrescajero="+nombrescajero+"&apellido1cajero="+apellido1cajero+"&apellido2cajero="+apellido2cajero+"&centrodecosto="+centrodecosto)
+	}
+}
+
+function editarCajero(c){
+	ajax = objetoAjax();
+	ajax.open("POST","admin/editar-cajero.php",true);
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4) {
+			$("#content-admin").html(ajax.responseText);
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("documento="+c)
+}
+
+function actualizarCajero(){
+	if(vacio($("#documento")) == true){
+		alert("El campo de Documento debe estar rellenado");
+	}
+	else if(vacio($("#nombrecajero")) == true){
+		alert("El campo de Nombres debe estar rellenado");
+	}
+	else if(vacio($("#apellido1cajero")) == true){
+		alert("El campo de Primer Apellido debe estar rellenado");
+	}
+	else if($("#centrodecosto").val() == "NULL"){
+		alert("Debe seleccionar el Centro de Costo del cajero");
+	}
+	else{
+		var cedulacajero = $("#documento").val();
+		var nombrescajero = $("#nombrecajero").val();
+		var apellido1cajero = $("#apellido1cajero").val();
+		var apellido2cajero = $("#apellido2cajero").val();
+		var centrodecosto = $("#centrodecosto").val();
+		if(!apellido2cajero)
+		{
+		apellido2cajero = "";
+		}
+		
+		ajax = objetoAjax();
+
+		ajax.open("POST","procedures/admin/actualizar-cajero.php",true);
+		ajax.onreadystatechange = function() {
+		 
+			if (ajax.readyState == 4) {
+				if(ajax.responseText == "OK"){
+					editarCajero(cedulacajero);
+					setTimeout(function(){
+						alerts("Cajero actualizado correctamente","alert-success");
+					},500);
+				}else{
+					var error = ajax.responseText;
+					alerts(error,"alert-danger");
+					limpiaFormulario("#formActualizarCajero");
+				}
+			}
+		}
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send("cedulacajero="+cedulacajero+"&nombrescajero="+nombrescajero+"&apellido1cajero="+apellido1cajero+"&apellido2cajero="+apellido2cajero+"&centrodecosto="+centrodecosto)
+	}
+}
+
+function consultarCajero(){
+	var cajero = $("#documento").val();
+	ajax = objetoAjax();
+	ajax.open("POST","procedures/admin/consultar-cajero.php",true);
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4) {
+			if(ajax.responseText == "NULL"){
+				alerts("El cajero no existe","alert-danger");
+				$("#documento").val("").focus();
+			}else{
+				$("#nombresyapellidos").val(ajax.responseText);
+			}
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("documento="+cajero)
+}
+
+function resetearPwd(c){
+
+	var password = c.toString();
+	password = "CV" + password.substr(-3);
+	
+	ajax = objetoAjax();
+	ajax.open("POST","procedures/admin/resetear-password.php",true);
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4) {
+			if(ajax.responseText == "OK"){
+				alert("Contraseña reseteada correctamente para el documento "+c+".");
+			}else{
+				alert("Ha ocurrido un error por favor intente más tarde.");
+			}
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("documento="+c+"&password="+password)
+}
+
+function crearUsuario(){
+	var cedulacajero = $("#documento").val();
+	if(vacio($("#documento")) == true){
+		alert("El campo de Documento debe estar rellenado");
+	}
+	else if(vacio($("#login")) == true){
+		alert("El campo de Login debe estar rellenado");
+	}
+	else if($("#rol").val() == "NULL"){
+		alert("Debe seleccionar un rol para el usuario");
+	}
+	else{
+		var login = $("#login").val();
+		var rol = $("#rol").val();
+		var estado = $("#estado").val();
+		var password = cedulacajero.toString();
+		password = "CV" + password.substr(-3);
+		
+		ajax = objetoAjax();
+
+		ajax.open("POST","procedures/admin/crear-usuario.php",true);
+		ajax.onreadystatechange = function() {
+		 
+			if (ajax.readyState == 4) {
+				if(ajax.responseText == "OK"){
+					alerts("El usuario fue creado correctamente.","alert-success");
+					limpiaFormulario("#formCrearUsuario");
+				}else{
+					alerts(ajax.responseText,"alert-danger");
+					limpiaFormulario("#formCrearUsuario");
+				}
+			}
+		}
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send("documento="+cedulacajero+"&login="+login+"&rol="+rol+"&estado="+estado+"&password="+password)
+	}
+}
+
+function editarUsuario(c){
+	ajax = objetoAjax();
+	ajax.open("POST","admin/editar-usuario.php",true);
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4) {
+			$("#content-admin").html(ajax.responseText);
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("documento="+c)
+}
+
+function actualizarUsuario(){
+	
+	if(vacio($("#login")) == true){
+		alert("El campo de Login debe estar rellenado");
+	}
+	else if($("#rol").val() == "NULL"){
+		alert("Debe seleccionar un rol para el usuario");
+	}
+	else{
+		var cedulacajero = $("#documento").val();
+		var login = $("#login").val();
+		var rol = $("#rol").val();
+		var estado = $("#estado").val();
+		
+		ajax = objetoAjax();
+
+		ajax.open("POST","procedures/admin/actualizar-usuario.php",true);
+		ajax.onreadystatechange = function() {
+		 
+			if (ajax.readyState == 4) {
+				if(ajax.responseText == "OK"){
+					editarUsuario(cedulacajero);
+					setTimeout(function(){
+						alerts("Cajero actualizado correctamente","alert-success");
+					},500);
+				}else{
+					var error = ajax.responseText;
+					alerts(error,"alert-danger");
+					limpiaFormulario("#formActualizarUsuario");
+				}
+			}
+		}
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send("documento="+cedulacajero+"&login="+login+"&rol="+rol+"&estado="+estado)
+	}
 }
