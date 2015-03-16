@@ -63,6 +63,7 @@ conectar();
 $fecha = $_POST["fecha"];
 $cedulafiltro = $_POST["cedulafiltro"];
 $centrodecosto = $_SESSION["centrodecosto"];
+$movimiento = $_POST["transaccion"];
 
 //Selecciona los cajeros con registros para la fecha, centro de costo y filtrado por una o todas las cedulas
 $qcajeros = "SELECT DISTINCT r.cod_cajero, c.nombres, c.apellido1, c.apellido2 FROM cajeros c, registros r, sucursal s
@@ -84,7 +85,8 @@ WHERE r.cod_trans = t.codigo
 AND r.cod_punto = s.codigo
 AND s.cod_ccosto = ".$centrodecosto."
 AND r.fecha = '".$fecha."'
-AND r.cod_cajero = ".$cajero[0];
+AND r.cod_cajero = ".$cajero[0]."
+AND r.cod_trans LIKE '".$movimiento."'";
 $transacciones = mysql_query($qtransacciones);
 $totalcajero = 0;
 	//Ciclo que pasa por cada transaccion encontrada
@@ -104,6 +106,7 @@ $totalcajero = 0;
 	AND r.cod_cajero = ".$cajero[0]."
 	AND r.cod_trans = ".$transaccion[0];
 	$registros = mysql_query($qregistros);
+	$totaltransaccion = 0;
 		//Ciclo que pasa por cada registro encontrado
 		while($registro = mysql_fetch_array($registros)){
 		//Escribe en el archivo la informacion de cada registro
@@ -116,8 +119,16 @@ $totalcajero = 0;
 		$pdf->Cell(30,5,$registro[8],0,0,"L");
 		$pdf->Ln();
 		//Suma cada valor del registro a un total de cajero
+		$totaltransaccion = $totaltransaccion + $registro[5];
+		//Suma cada valor del registro a un total de cajero
 		$totalcajero = $totalcajero + $registro[5];
 		}
+		//Escribe en el archivo el valor total de cajero
+		$pdf->SetFont("Arial","B",7);
+		$pdf->Cell(123,5,"TOTAL TRANSACCION: ",0,0,"R");
+		$pdf->Cell(20,5,"$ ".number_format($totaltransaccion,0,",","."),0,0,"R");
+		$pdf->Ln(7);
+		$pdf->SetFont("Arial","",7);
 	}
 	//Escribe en el archivo el valor total de cajero
 	$pdf->SetFont("Arial","B",7);

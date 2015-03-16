@@ -1,5 +1,6 @@
 <?php session_start();?>
-
+<?php require("procedures/conec.php");?>
+<?php require("functions.php");?>
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<p>REPORTE 1 - RECAUDO DE EFECTIVO POR PUNTO DE VENTA</p>
@@ -43,16 +44,28 @@
 			</form>
 		</div>
 	</div>
+	<?php
+		$qtransacciones = "SELECT codigo,nombre FROM transacciones ORDER BY codigo";
+		$transacciones = ejecutarQuery($qtransacciones);
+	?>
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<p>REPORTE 4 - RECAUDO DE EFECTIVO POR CAJERO</p>
 			<form class="form-horizontal" action="reports/recaudosporcajero.php" method="post" name="genReport4" target="_blank">
 				<div class="row">
-				<div class="col-xs-5">
+				<div class="col-xs-3">
 					<input type="text" name="cedulafiltro" id="cedulafiltro" value="%" class="form-control"/>
 				</div>
-				<div class="col-xs-5">
+				<div class="col-xs-3">
 					<input type="text" name="fecha" value="<?php echo $fechaactual;?>" class="datepicker form-control"/>
+				</div>
+				<div class="col-xs-4">
+					<select class="form-control" name="transaccion" id="transaccion"> 
+						<option value="%">- Tipo transacción</option>
+					<?php while($transaccion = mysql_fetch_array($transacciones)){?>
+						<option value="<?php echo $transaccion[0];?>"><?php echo $transaccion[0];?> - <?php echo $transaccion[1];?></option>
+					<?php }?>
+					</select>
 				</div>
 				<div class="col-xs-2">
 					<input type="hidden" name="cedulacajero" id="cedulacajero" value="<?php echo $_SESSION["documento"];?>"/>
