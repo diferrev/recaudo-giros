@@ -26,7 +26,7 @@ if(!$result1){
 	$_SESSION["username"] = $username;
 	$_SESSION["rol"] = $datosCajero[5];
 	
-	echo "OK";
+	echo "OK;".$datosCajero[0].";".$datosCajero[1].";".$datosCajero[2].";".$datosCajero[3].";".$datosCajero[4].";".$username.";".$datosCajero[5];
 }
 
 ;?>

@@ -1,3 +1,7 @@
+<?php 
+ini_set("session.cookie_lifetime","7200");
+ini_set("session.gc_maxlifetime","7200");
+?>
 <?php session_start();?>
 <?php require("procedures/conec.php");?>
 <?php require("functions.php");?>

@@ -1,5 +1,9 @@
 <?php require_once("procedures/conec.php");?>
 <?php require_once("functions.php");?>
+<?php 
+ini_set("session.cookie_lifetime","7200");
+ini_set("session.gc_maxlifetime","7200");
+?>
 <?php session_start();?>
 <div id="activarImpresora" class="alert alert-warning text-center" role="alert">
 			Recuerde activar la impresora antes de empezar a recaudar  <button class="btn btn-sm btn-default" onclick="useDefaultPrinter()">Activar Impresora</button>

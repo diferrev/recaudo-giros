@@ -1,5 +1,9 @@
 <?php require_once("procedures/conec.php");?>
 <?php require_once("functions.php");?>
+<?php 
+ini_set("session.cookie_lifetime","7200");
+ini_set("session.gc_maxlifetime","7200");
+?>
 <?php session_start();?>
 <form class="form-horizontal" action="" id="formCambiaPasswd" name="formCambiaPasswd">
 	<p class="col-md-12 text-center">Cambiar contraseña</p>

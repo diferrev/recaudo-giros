@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
 <?php
+ini_set("session.cookie_lifetime","7200");
+ini_set("session.gc_maxlifetime","7200");
 session_start();
 if(!$_SESSION["documento"]){
 	header("Location: login.php");
@@ -42,6 +44,9 @@ require("procedures/conec.php");
         <li><a href="" onclick="cargarContenido('#contenido','home.php',this)">Inicio</a></li>
         <li><a href="" onclick="cargarContenido('#contenido','recaudo.php',this)">Recaudo</a></li>
 		<li><a href="" onclick="cargarContenido('#contenido','reportes.php',this)">Reportes</a></li>
+		<?php if($_SESSION["rol"] == 2){?>
+		<li><a href="" onclick="cargarContenido('#contenido','admin/asesores.php',this)">Gestión de Asesoras</a></li>
+		<?php }?>
 		<?php if($_SESSION["rol"] == 1){?>
 		<li><a href="" onclick="cargarContenido('#contenido','admin/index.php',this)">Administración</a></li>
 		<?php }?>

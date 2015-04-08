@@ -30,7 +30,18 @@ function login(){
 		
 	ajax.onreadystatechange = function() {
 		if (ajax.readyState == 4) {
-			if( ajax.responseText == "OK" ){
+			var dataLogin = ajax.responseText;
+			dataLogin = dataLogin.split(";");
+			if( dataLogin[0] == "OK" ){
+				//Almacena datos del usuario en sessionStorage
+				sessionStorage.documento = dataLogin[1];
+				sessionStorage.nombres = dataLogin[2];
+				sessionStorage.apellido1 = dataLogin[3];
+				sessionStorage.apellido2 = dataLogin[4];
+				sessionStorage.centrodecosto = dataLogin[5];
+				sessionStorage.username = dataLogin[6];
+				sessionStorage.rol = dataLogin[7];
+				
 				alerts("Su usuario y contraseña son correctos","alert-success");
 				setTimeout("redireccionar('/recaudogiros')", 1000)
 			}else{
@@ -57,6 +68,7 @@ function logout(a){
 		
 	ajax.onreadystatechange = function() {
 		if (ajax.readyState == 4) {
+			localStorage.clear();
 			setTimeout("redireccionar('/recaudogiros/login.php')", 500)
 		}
 	}
@@ -137,6 +149,19 @@ function fechayhoraPC()
 	
 	fechayhoraPC = dia+"/"+mes+"/"+fecha.getFullYear()+" "+hora+":"+min+":"+seg;
 	return fechayhoraPC;
+}
+
+function Page(pag){
+	var tableContent = $("#content-table");
+	ajax = objetoAjax();
+	ajax.open("GET","admin/listado-asesores.php?pag="+pag,true);
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4) {
+			tableContent.html(ajax.responseText)
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send(null)
 }
 
 //FUNCION QUE DEVUELVE EL CENTRODECOSTO AL SELECCIONAR UN PUNTO DE VENTA
@@ -671,5 +696,123 @@ function actualizarUsuario(){
 		}
 		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 		ajax.send("documento="+cedulacajero+"&login="+login+"&rol="+rol+"&estado="+estado)
+	}
+}
+
+function crearAsesor(){
+	if(vacio($("#documento")) == true){
+		alert("El campo de Documento debe estar rellenado");
+	}
+	else if(vacio($("#nombreasesor")) == true){
+		alert("El campo de Nombres debe estar rellenado");
+	}
+	else if(vacio($("#apellido1asesor")) == true){
+		alert("El campo de Primer Apellido debe estar rellenado");
+	}
+	else {
+		var cedulaasesor = $("#documento").val();
+		var nombresasesor = $("#nombreasesor").val();
+		var apellido1asesor = $("#apellido1asesor").val();
+		var apellido2asesor = $("#apellido2asesor").val();
+		var estado = $("#estado").val();
+		if(!apellido2asesor)
+		{
+		apellido2asesor = "";
+		}
+
+		ajax = objetoAjax();
+
+		ajax.open("POST","procedures/admin/crear-asesor.php",true);
+		ajax.onreadystatechange = function() {
+		 
+			if (ajax.readyState == 4) {
+				if(ajax.responseText == "OK"){
+					alerts("Asesor creado correctamente","alert-success");
+					limpiaFormulario("#formCrearAsesor");
+				}else{
+					var error = ajax.responseText;
+					alerts(error,"alert-danger");
+					limpiaFormulario("#formCrearAsesor");
+				}
+			}
+		}
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send("cedulaasesor="+cedulaasesor+"&nombresasesor="+nombresasesor+"&apellido1asesor="+apellido1asesor+"&apellido2asesor="+apellido2asesor+"&estado="+estado)
+	}
+}
+
+function editarAsesor(c){
+	ajax = objetoAjax();
+	ajax.open("POST","admin/editar-asesor.php",true);
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4) {
+			$("#content-admin").html(ajax.responseText);
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("documento="+c)
+}
+
+function actualizarAsesor(){
+	if(vacio($("#documento")) == true){
+		alert("El campo de Documento debe estar rellenado");
+	}
+	else if(vacio($("#nombreasesor")) == true){
+		alert("El campo de Nombres debe estar rellenado");
+	}
+	else if(vacio($("#apellido1asesor")) == true){
+		alert("El campo de Primer Apellido debe estar rellenado");
+	}
+	else {
+		var cedulaasesor = $("#documento").val();
+		var nombresasesor = $("#nombreasesor").val();
+		var apellido1asesor = $("#apellido1asesor").val();
+		var apellido2asesor = $("#apellido2asesor").val();
+		var estado = $("#estado").val();
+		if(!apellido2asesor)
+		{
+		apellido2asesor = "";
+		}
+		
+		ajax = objetoAjax();
+
+		ajax.open("POST","procedures/admin/actualizar-asesor.php",true);
+		ajax.onreadystatechange = function() {
+		 
+			if (ajax.readyState == 4) {
+				if(ajax.responseText == "OK"){
+					editarAsesor(cedulaasesor);
+					setTimeout(function(){
+						alerts("Asesor actualizado correctamente","alert-success");
+					},500);
+				}else{
+					var error = ajax.responseText;
+					alerts(error,"alert-danger");
+					limpiaFormulario("#formActualizarAsesor");
+				}
+			}
+		}
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send("cedulaasesor="+cedulaasesor+"&nombresasesor="+nombresasesor+"&apellido1asesor="+apellido1asesor+"&apellido2asesor="+apellido2asesor+"&estado="+estado)
+	}
+}
+function consultarAsesor(){
+	$(this).click(function(event){
+    event.preventDefault();
+	});
+	
+	ajax = objetoAjax();
+	if(vacio($("#documento")) == true){
+		alert("El campo de Documento debe estar rellenado");
+	}else {
+		var documento = $("#documento").val();
+		ajax.open("POST","procedures/admin/resultado-asesor.php",true);
+		ajax.onreadystatechange = function() {
+			if (ajax.readyState == 4) {
+				$("#resultado-asesor").html(ajax.responseText);
+			}
+		}
+		ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		ajax.send("documento="+documento)
 	}
 }
