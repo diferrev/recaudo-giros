@@ -15,6 +15,7 @@ ini_set("session.gc_maxlifetime","7200");
 		<label for="puntodeventa" class="col-sm-3 control-label">Punto de Venta</label>
 		<div class="col-sm-9">
 		<?php
+		$rol = $_SESSION["rol"];
 		$centrodecosto = $_SESSION["centrodecosto"];
 		$query = "SELECT s.codigo, s.nombre FROM sucursal s WHERE s.cod_ccosto = ".$centrodecosto." ORDER BY s.nombre"; 
 		?>
@@ -49,7 +50,7 @@ ini_set("session.gc_maxlifetime","7200");
 	<div class="form-group">
 		<label for="transaccion" class="col-sm-3 control-label">Transacción</label>
 		<div class="col-sm-9">
-			<?php $query = "SELECT t.codigo, t.nombre FROM transacciones t"; ?>
+			<?php $query = "SELECT t.codigo, t.nombre FROM transacciones t INNER JOIN transacciones_rol tr ON t.codigo = tr.cod_trans WHERE tr.cod_rol = $rol"; ?>
 			<?php $transacciones = ejecutarQuery($query);?>
 			<select class="form-control" name="transaccion" id="transaccion" onChange="numConsecutivo()">
 				<option value="0">- SELECCIONE EL TIPO DE TRANSACCION -</option>

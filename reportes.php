@@ -2,7 +2,11 @@
 ini_set("session.cookie_lifetime","7200");
 ini_set("session.gc_maxlifetime","7200");
 ?>
-<?php session_start();?>
+<?php 
+	session_start();
+	$rol = $_SESSION["rol"];
+	$fechaactual = date("Y-m-d");
+?>
 <?php require("procedures/conec.php");?>
 <?php require("functions.php");?>
 	<div class="panel panel-default">
@@ -28,14 +32,13 @@ ini_set("session.gc_maxlifetime","7200");
 			</form>
 		</div>
 	</div>
-
+	<?php if($rol != 4){?>
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<p>REPORTE 3 - RECAUDO DE EFECTIVO DE TESORERÍA</p>
 			<form action="reports/recaudosdetesoreria.php" method="post" name="genReport3" target="_blank">
 				<div class="row">
 				<div class="col-xs-10">
-					<?php $fechaactual = date("Y-m-d");?>
 					<input type="text" class="datepicker form-control" name="fecha"  value="<?php echo $fechaactual;?>"/>
 				</div>
 				<div class="col-xs-2">
@@ -48,8 +51,9 @@ ini_set("session.gc_maxlifetime","7200");
 			</form>
 		</div>
 	</div>
+	<?php }?>
 	<?php
-		$qtransacciones = "SELECT codigo,nombre FROM transacciones ORDER BY codigo";
+		$qtransacciones = "SELECT t.codigo, t.nombre FROM transacciones t INNER JOIN transacciones_rol tr ON t.codigo = tr.cod_trans WHERE tr.cod_rol = $rol";
 		$transacciones = ejecutarQuery($qtransacciones);
 	?>
 	<div class="panel panel-default">
