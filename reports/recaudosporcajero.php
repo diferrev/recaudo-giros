@@ -104,7 +104,8 @@ $totalcajero = 0;
 	AND r.cod_punto = s.codigo
 	AND r.fecha = '".$fecha."'
 	AND r.cod_cajero = ".$cajero[0]."
-	AND r.cod_trans = ".$transaccion[0];
+	AND r.cod_trans = ".$transaccion[0]."
+	ORDER BY s.nombre";
 	$registros = mysql_query($qregistros);
 	$totaltransaccion = 0;
 		//Ciclo que pasa por cada registro encontrado
