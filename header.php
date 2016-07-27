@@ -21,7 +21,7 @@ require("procedures/conec.php");
 	<div class="container">
 		<div class="col-sm-6">
 			<h1 class="header__title">Recaudo de Efectivo de Giros</h1>
-			<span class="header__subtitle">Apuestas Azar S.A.</span>
+			<span class="header__subtitle">Super Servicios del Valle S.A.</span>
 		</div>
 		<div class="col-sm-6 user">
 			<p class="user__data"><span id="cedulacajero"><?php echo $_SESSION["documento"];?></span> - <span id="nombrescajero"><?php echo $_SESSION["nombres"];?> <?php echo $_SESSION["apellidos"];?></span></p>

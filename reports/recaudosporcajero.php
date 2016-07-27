@@ -12,7 +12,7 @@ class PDF extends FPDF
 		$nombrescajero = $_POST["nombrescajero"];
 		
 		$this->SetFont("Arial","B",8);
-		$this->Cell(0,5,"APUESTAS AZAR S.A.",0,0,"C");
+		$this->Cell(0,5,"SUPER SERVICIOS DEL VALLE S.A.",0,0,"C");
 		$this->Ln();
 		$this->Cell(0,5,utf8_decode("REPORTE 4 - RECAUDO DE EFECTIVO POR CAJERO"),0,0,"C");
 		$this->Ln(7);

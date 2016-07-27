@@ -16,7 +16,7 @@ if(!isset($_SESSION["documento"])){
 <div class="containerLogin">
 	<header class="header text-center">
 		<h1 class="header__title">Recaudo de Efectivo de Giros</h1>
-		<span class="header__subtitle">Apuestas Azar S.A.</span>
+		<span class="header__subtitle">Super Servicios del Valle S.A.</span>
 	</header>
 	<div class="alert" id="alert"></div>
 	<form action="" method="post" role="form" name="formLogin" id="formLogin">

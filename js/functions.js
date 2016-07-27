@@ -114,7 +114,7 @@ function imprimirRecibo(fechayhorapc,cedulacajero,nombrescajero,centrodecosto,no
 		// Send characters/raw commands to qz using "append"
 		// This example is for EPL.  Please adapt to your printer language
 		// Hint:  Carriage Return = \r, New Line = \n, Escape Double Quotes= \"
-		qz.append("Apuestas Azar S.A.\n");
+		qz.append("Super Servicios del Valle S.A.\n");
 		qz.append("Recaudo Efectivo Giros v2.0\n\n");
 		qz.append(tipotransaccion+"\n");
 		qz.append("Fecha y Hora: "+fechayhorapc+"\n");
